@@ -74,10 +74,11 @@ function getDateFacets(query, id, callback){
 
             arr = [];
             for (var key in data) {
-                if (data.hasOwnProperty(key)) {
+                if (data.hasOwnProperty(key)
+                    && /^[0-9]{4}-[0-9]{2}-[0-9]{2}T.*/.test(key)) { //because date facets also have 'start' and 'end'
                     obj = {};
                     obj['date'] = new Date(Date.parse(key));
-                    obj['count'] = data[key];
+                    obj['count'] =  data[key];
                     arr.push(obj);
                 }
             }
@@ -99,7 +100,7 @@ function getFacets(fieldName, callback){
             && fieldName in data && (data = data[fieldName]) && data.length > 0){
             terms = [];
             counts = [];
-            for(i = 0; i < data.length - 1;) {
+            for (i = 0; i < data.length - 1;) {
                 terms.push(data[i]);
                 counts.push(data[i+1]);
                 i += 2
