@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://gist.github.com/emeeks/3361332/raw/61cf57523fe8cf314333e5f60cc266351fec2017/d3.layout.cloud.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<body>
+</body>
+<script>
+
+  var fillColor = d3.scale.category20();
+
+   var frequency_list = [];
+   var temp_frequency_list = [];
+
+        $.ajax({ url:'wt.json',dataType: "json", 
+        success: function(root)
+        {
+         var temp = root.facet_counts.facet_fields.weapontypes;
+         
+         var headers = ["text","size"];
+         min = Math.pow(Math.log2(temp[temp.length-1]),1.5)*0.8;
+
+         
+         for(var i=0;i<temp.length;i+=2)
+         {
+         	var obj = {};
+         	obj[headers[0]] = toTitleCase(temp[i]);
+            obj[headers[1]] = Math.pow(Math.log2(temp[i+1]),1.5)-min;
+            temp_frequency_list.push(obj);
+         }
+         deduped = {}
+
+         for(var i = 0 ; i<temp_frequency_list.length ; i++ )
+         {
+         	if (temp_frequency_list[i].text in deduped) {
+         		deduped[temp_frequency_list[i].text] += temp_frequency_list[i].size
+         	} else {
+         		deduped[temp_frequency_list[i].text] = temp_frequency_list[i].size
+         	}
+         }
+          $.each(deduped, function(key, value)
+         {
+           var obj = {};
+           obj[headers[0]] = key;
+           obj[headers[1]] = value;
+           frequency_list.push(obj);
+         });
+       function toTitleCase(str)
+        {
+          return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
+
+   var layout =  d3.layout.cloud().size([750, 750])
+            .words(frequency_list)
+            .rotate(0)
+            .padding(5)
+            .font("Impact")
+            .fontSize(function(d) { return d.size; })
+            .on("end", draw);
+            layout.start();
+    
+    function draw(words) {
+        d3.select("body").append("svg")
+                .attr("width", 750)
+                .attr("height", 750)
+                .attr("margin",0)
+                .attr("padding",0)
+                .attr("class", "wordcloud")
+                .append("g")
+                // without the transform, words words would get cutoff to the left and top, they would
+                // appear outside of the SVG area
+                .attr("transform", "translate(" + layout.size()[0] / 2 + "," + layout.size()[1] / 2 + ")")
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", function(d) { return d.size + "px"; })
+                .style("font-family", "Impact")
+                .style("fill", function(d, i) { return fillColor(i); })
+                .attr("text-anchor", "middle")
+                .attr("transform", function(d) {
+                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                })
+                .text(function(d) { return d.text; });
+    }}});
+</script>
+</html>
+
