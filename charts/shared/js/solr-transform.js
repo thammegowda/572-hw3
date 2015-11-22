@@ -3,6 +3,7 @@
  */
 
 
+var SOLR_URL = "/solr/collection2";
 /**
  * Split the geo identifier into latitude and longitude
  * @param data - the geo point string in the form of "lat, long"
@@ -57,4 +58,55 @@ function getSolrFacet(res, fieldName, transformFunc) {
         }
     }
     return null
+}
+
+
+function getDateFacets(query, id, callback){
+    dateStartStr = "2015-08-01T00:00:00Z";
+    dateEndStr = "NOW";
+    dateFieldName = 'dates'
+    url = SOLR_URL + "/query?q=*:*&rows=0&facet=true&facet.date=" + dateFieldName + "&fq=" + query
+        + "&facet.date.start=" + dateStartStr + "&facet.date.end=" + dateEndStr + "&facet.date.gap=%2B1DAY";
+    d3.json(url, function(err, data) {
+        if ('facet_counts' in data && (data = data.facet_counts)
+            && 'facet_dates' in data && (data = data.facet_dates)
+            && "dates" in data && (data = data["dates"])) {
+
+            arr = [];
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    obj = {};
+                    obj['date'] = new Date(Date.parse(key));
+                    obj['count'] = data[key];
+                    arr.push(obj);
+                }
+            }
+            callback(id, arr)
+        }
+    });
+
+}
+
+function getFacets(fieldName, callback){
+    //http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&rows=0&facet.limit=50
+    url = SOLR_URL + "/query?q=*:*&rows=0&facet=on&facet.limit=100&facet.field=" + fieldName;
+    d3.json(url, function(error, data) {
+        if (error) return console.warn(error);
+        //console.log(data);
+
+        if ('facet_counts' in data && (data = data.facet_counts)
+            && 'facet_fields' in data && (data = data.facet_fields)
+            && fieldName in data && (data = data[fieldName]) && data.length > 0){
+            terms = [];
+            counts = [];
+            for(i = 0; i < data.length - 1;) {
+                terms.push(data[i]);
+                counts.push(data[i+1]);
+                i += 2
+            }
+            callback(terms, counts)
+        }
+        return null;
+    })
+
 }
