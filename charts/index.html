@@ -8,21 +8,138 @@
     <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="shared/css/bootstrap.min.css" rel="stylesheet">
+    <link href="shared/css/bootstrap-theme.min.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <script src="./shared/js/d3.v3.min.js"></script>
+    <script src="./shared/js/d3.geo.projection.v0.min.js"></script>
+    <script src="./shared/js/topojson.v0.min.js"></script>
+    <script src="./shared/js/jsonp.js"></script>
+    <script src="./shared/js/solr-transform.js"></script>
+    <script src="./shared/js/charts.js"></script>
+    <style>
+        .chart-parent {
+            border: dashed 2px;
+        }
+    </style>
 </head>
-<body>
-<h1>Hello, world!</h1>
+<body class="container-fluid">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><b>Weapon Ads</b></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">D3 Charts <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Banana</a></li>
+                <li><a href="#">Facet View</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li> <a href="">Crawler</a> </li>
+                        <li> <a href="">Indexer</a> </li>
+                        <li> <a href="">UI source</a> </li>
+                        <li role="separator" class="divider"> </li>
+                        <li> <a href="#">About</a> </li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="inputbox">
+    Select The Challenge
+    <select id="challenge">
+        <option value="Qry1">Challenge 1</option>
+        <option value="Qry2">Challenge 2</option>
+        <option value="Qry3">Challenge 3</option>
+        <option value="Qry4">Challenge 4</option>
+    </select>
+    <br/>
+
+    <div class="form-group col-lg-12">
+        <div class="form-group">
+            <label class="col-sm-1 control-label">Query</label>
+            <div class="col-sm-11">
+                <input class="form-control" name="query" id="query" />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr/>
+<h2>Charts</h2>
+<div class="chart-container row" >
+
+    <!-- Temporal Trend-->
+    <div class="col-lg-4 chart-parent temporal-trend" >
+        <h4>Temporal Trend</h4>
+    </div>
+
+    <!--------------------------->
+
+    <div class="col-lg-4 chart-parent">
+        <h4>Geographical Trend</h4>
+        <div id="geo-svg-parent">
+
+        </div>
+    </div>
+
+    <!--------------------------->
+
+    <div class="col-lg-4 chart-parent">
+        <h4>Bubble</h4>
+    </div>
+
+    <!--------------------------->
+
+    <div class="col-lg-4 chart-parent">
+        <h4>Weapon Model Influx</h4>
+    </div>
+
+    <!--------------------------->
+
+    <div class="col-lg-4 chart-parent">
+        <h4>Weapons Cloud</h4>
+    </div>
+
+    <!--------------------------->
+
+    <div class="col-lg-4 chart-parent">
+        <h4>Dendogram of Type to Model</h4>
+    </div>
+</div>
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="shared/js/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
+<script src="shared/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+    drawGeoMap("geo-svg-parent")
+</script>
+
 </body>
 </html>
