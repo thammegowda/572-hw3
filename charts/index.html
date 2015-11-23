@@ -10,7 +10,6 @@
     <!-- Bootstrap -->
     <link href="shared/css/bootstrap.min.css" rel="stylesheet">
     <link href="shared/css/bootstrap-theme.min.css" rel="stylesheet">
-
     <script src="./shared/js/d3.v3.min.js"></script>
     <script src="./shared/js/d3.geo.projection.v0.min.js"></script>
     <script src="./shared/js/topojson.v0.min.js"></script>
@@ -18,10 +17,18 @@
     <script src="./shared/js/solr-transform.js"></script>
     <script src="./shared/js/charts.js"></script>
     <style>
-        .chart-parent {
-            border: dashed 2px;
+        .iframeSize
+        {
+          width: 95%;
+          height: 100%;
+          position: absolute;
         }
     </style>
+<script language="javascript" type="text/javascript">
+  function resizeIframe(obj) {
+    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+  }
+</script>
 </head>
 <body class="container-fluid">
 <nav class="navbar navbar-default">
@@ -89,130 +96,43 @@
 
 <hr/>
 <h2>Charts</h2>
-<div class="chart-container row" >
+ <div class="container">
+  
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#temporal">Temporal Trend</a></li>
+    <li><a data-toggle="tab" href="#geo">Geo Trend</a></li>
+    <li><a data-toggle="tab" href="#similar">Similar Weapons</a></li>
+    <li><a data-toggle="tab" href="#influx">Weapon Model Influx</a></li>
+    <li><a data-toggle="tab" href="#cloud">Weapons Cloud</a></li>
+    <li><a data-toggle="tab" href="#dendo">Dendogram of Type to Model</a></li>
+  </ul>
 
-    <!-- Temporal Trend-->
-    <div class="col-lg-4 chart-parent temporal-trend" >
-        <h4>Temporal Trend</h4>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#temporalTrend">Show</button>
+  <div class="tab-content">
+    <div id="temporal" class="tab-pane fade in active">
+      <h3>Temporal Trend</h3>
+      <iframe src="calendar.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
     </div>
-
-
-
-    <div class="col-lg-4 chart-parent">
-        <h4>Geographical Trend</h4>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#geoTrend">Show</button>
+    <div id="geo" class="tab-pane fade ">
+      <h3>Geo Trend</h3>
+      <iframe src="geo/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
     </div>
-
-    <div class="col-lg-4 chart-parent">
-        <h4>Similar Weapons</h4>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#similarWeapons">Show</button>
+    <div id="similar" class="tab-pane fade ">
+      <h3>Similar Weapons</h3>
+      <iframe src="bubble_chart.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
     </div>
-
-
-    <div class="col-lg-4 chart-parent">
-        <h4>Weapon Model Influx</h4>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#multiLine">Show</button>
+    <div id="influx" class="tab-pane fade">
+      <h3>Weapon Model Influx</h3>
+      <iframe src="multiline/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
     </div>
-
-
-    <div class="col-lg-4 chart-parent">
-        <h4>Weapons Cloud</h4>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#weaponsCloud">Show</button>
+    <div id="cloud" class="tab-pane fade">
+      <h3>Weapons Cloud</h3>
+      <iframe src="word_cloud.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
     </div>
-
-    
-
-    <div class="col-lg-4 chart-parent">
-        <h4>Dendogram of Type to Model</h4>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#dendo">Show</button>
+    <div id="dendo" class="tab-pane fade">
+      <h3>Dendogram of Type to Model</h3>
     </div>
+  </div>
 </div>
-  <div class="modal fade" id="temporalTrend" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Temporal Trend</h4>
-        </div>
-        <div class="modal-body">
-          <iframe src="calendar.html" frameborder="0"></iframe>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>  
-    </div>
-  <div class="modal fade" id="geoTrend" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Geographical Trend</h4>
-        </div>
-        <div class="modal-body">
-          <iframe src="geo/index.html" frameborder="0"></iframe>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>  
-    </div>
-   <div class="modal fade" id="similarWeapons" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Similar Weapons</h4>
-        </div>
-        <div class="modal-body">
-          <iframe src="bubble_chart.html" frameborder="0"></iframe>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>  
-    </div>
-   <div class="modal fade" id="multiLine" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Weapon Model Influx</h4>
-        </div>
-        <div class="modal-body">
-          <iframe src="multiline/index.html" frameborder="0"></iframe>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>  
-    </div>     
-    <div class="modal fade" id="weaponsCloud" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Weapon Model Influx</h4>
-        </div>
-        <div class="modal-body">
-          <iframe src="word_cloud.html" frameborder="0"></iframe>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>  
-    </div>   
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="shared/js/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
