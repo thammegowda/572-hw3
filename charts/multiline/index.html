@@ -1,370 +1,224 @@
 <!DOCTYPE html>
-
 <head>
+    <meta charset="utf-8">
 
-<meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="../shared/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../shared/css/bootstrap-theme.min.css" rel="stylesheet">
+    <style>
 
-<style>
+        body {
+            font: 10px sans-serif;
+        }
 
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
 
+        .x.axis path {
+            display: none;
+        }
 
-    body {
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1.5px;
 
-        font: 10px sans-serif;
+        }
+        .lineThick {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
 
-    }
-
-
-
-    .axis path,
-
-    .axis line {
-
-        fill: none;
-
-        stroke: #000;
-
-        shape-rendering: crispEdges;
-
-    }
-
-
-
-    .x.axis path {
-
-        display: none;
-
-    }
-
-
-
-    .line {
-
-        fill: none;
-
-        stroke: steelblue;
-
-        stroke-width: 1.5px;
-
-    }
-.lineThick {
-font-weight: bold;
-font-size: 1.2em;
-
-}
-
-</style>
+    </style>
+    <script src="../shared/js/d3.v3.min.js"></script>
+    <script src="../shared/js/solr-transform.js"></script>
 
 </head>
-
 <body>
 
+<div id="inputbox" class="container-fluid">
 
-
-<script src="http://d3js.org/d3.v3.js"></script>
-
-<script src="../shared/js/solr-transform.js"></script>
-
-<div id="menubox" style="float:left; width:33%;">
-
+    <span class="col-lg-4">
+    Start Date : <input id="startdate" class="datepicker" data-date-format="mm/dd/yyyy"  value="2014-01-01" onchange="onInputChange()">
+    </span>
+    <span id="menubox" class="col-lg-4">
     Trend for weapon:
-
-</div>
-<div id="desc" style="float:left; width:33%;">
-
-    
-
+    </span>
 </div>
 
+<br/>
+<div id="desc">
+</div>
 <div id="trends" >
-
     <!-- SVG comes here-->
-
 </div>
-
 <script>
 
-
-
     var margin = {top: 20, right: 80, bottom: 30, left: 50},
-
             width = 960 - margin.left - margin.right,
-
             height = 500 - margin.top - margin.bottom;
 
-
-
     var x = d3.time.scale()
-
             .range([0, width]);
 
-
-
     var y = d3.scale.linear()
-
             .range([height, 0]);
-
-
 
     var color = d3.scale.category10();
 
-
-
     var xAxis = d3.svg.axis()
-
             .scale(x)
-
             .orient("bottom");
 
-
-
     var yAxis = d3.svg.axis()
-
             .scale(y)
-
             .orient("left");
 
-
-
     var line = d3.svg.line()
-
             .interpolate("basis")
-
             .x(function(d) { return x(d.date); })
-
             .y(function(d) { return y(d.count); });
 
-
-
     var svg = d3.select("#trends").append("svg")
-
             .attr("width", width + margin.left + margin.right)
-
             .attr("height", height + margin.top + margin.bottom)
-
             .append("g")
-
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-
 
 
     function drawChart(data){
 
-
-
         //clear previous state
-
         d3.select("g").selectAll("*").remove();
 
-
-
         // if (error) throw error;
-
         domains = data.map(function (v) {return v.name});
-
         color.domain(domains);
-
         console.log(data)
-
-
 
         x.domain(d3.extent(data[0].values, function(d) { return d.date; }));
 
-
-
         y.domain([
-
             d3.min(data, function(c) { return d3.min(c.values, function(v) { return v.count; }); }),
-
             d3.max(data, function(c) { return d3.max(c.values, function(v) { return v.count; }); })
-
         ]);
 
-
-
         svg.append("g")
-
                 .attr("class", "x axis")
-
                 .attr("transform", "translate(0," + height + ")")
-
                 .call(xAxis);
 
-
-
         svg.append("g")
-
                 .attr("class", "y axis")
-
                 .call(yAxis)
-
                 .append("text")
-
                 .attr("transform", "rotate(-90)")
-
                 .attr("y", 6)
-
                 .attr("dy", ".71em")
-
                 .style("text-anchor", "end")
-
                 .text("Number of Ads ");
 
-
-
         var weapontrend = svg.selectAll(".weapontrend")
-
                 .data(data)
-
                 .enter().append("g")
-
                 .attr("class", "weaponname");
 
-
-
         weapontrend.append("path")
-
                 .attr("class", "line")
-
                 .attr("d", function(d) {return line(d.values);})
-
                 .style("stroke", function(d) { return color(d.name); });
 
-
-
         weapontrend.append("text")
-
                 .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-
                 .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.count) + ")"; })
-
                 .attr("x", 3)
-
                 .attr("dy", ".35em")
-
                 .text(function(d) { return d.name; });
-
     }
 
-
-
-
-
-
-
-    function onWeaponChange(){
-
+    function onInputChange(){
         menu = d3.select("#weaponnameMenu")[0][0];
-
-        opts = menu.selectedOptions;
-
-        weaponanmes = [];
-
-        for (i=0; i< opts.length; i++) {
-
-            weaponanmes.push(opts[i].value)
-
+        if(!menu) {
+            return console.error("menu = " + menu)
         }
-
-        drawTrend(weaponanmes)
-
-
-
+        opts = menu.selectedOptions;
+        weaponanmes = [];
+        for (i=0; i< opts.length; i++) {
+            weaponanmes.push(opts[i].value)
+        }
+        startDate = dtStr = d3.select("#startdate")[0][0].value + "T00:00:00Z";
+        drawTrend(weaponanmes, startDate)
     }
 
 
-
-
-
-    function drawTrend(weaponNames){
-
-
+    function drawTrend(weaponNames, startDate){
 
         var stats = [];
-            d3.select("#desc").text("")
+        d3.select("#desc").text("");
 
         console.log("Terms = "+ weaponNames);
-
         for (i=0; i < weaponNames.length; i++) {
-
             counts[terms[i]] = {values:{}};
-
-            getDateFacets("weaponnames:"+weaponNames[i], weaponNames[i], function(id, data) {
-
+            getDateFacets("weaponnames:"+weaponNames[i], startDate, weaponNames[i], function(id, data) {
                 part = {};
-
                 part['name'] = id;
-
                 part['values'] = data;
-
                 stats.push(part);
-
                 if (stats.length == weaponNames.length) {
-
                     //all results are here
-
                     //console.log(stats)
-
-                    drawChart(stats)
-for (i=0; i < weaponNames.length; i++) {
-        d3.select("#desc")
-                    .append("div").attr("padding",0).attr("margin",0)
-                    .attr("class","lineThick")
-                    .style("color",function(d) { return color(weaponNames[i]); })
-            .html(weaponNames[i]+"&nbsp;&nbsp;&nbsp;&nbsp;――――――――――――――――――――")
-}
+                    drawChart(stats);
+                    ///
+                    for (i=0; i < weaponNames.length; i++) {
+                        d3.select("#desc")
+                                .append("div").attr("padding",0).attr("margin",0)
+                                .attr("class","lineThick")
+                                .style("color",function(d) { return color(weaponNames[i]); })
+                                .html(weaponNames[i]+"&nbsp;&nbsp;&nbsp;&nbsp;――――――――――――――――――")
+                    }
 
                 }
-
             });
-
         }
-
     }
 
-
-
     getFacets("weaponnames", function (terms, counts) {
-
         //pick few items
-
-
 
         terms = terms.filter(function(v){return v != ""});
 
-
-
         // loading data to menu
-
         var select  = d3.select("#menubox")
-
                 .append("select")
-
                 .attr('multiple', 'true')
-
                 .attr('id', 'weaponnameMenu')
-
-                .on("change", onWeaponChange),
-
+                .on("change", onInputChange),
                 options = select.selectAll('option').data(terms); // Data join
-
         // Enter selection
-
         options.enter().append("option").text(function(d) { return d; });
-
-        drawTrend(terms.slice(0,5)); //draw the first one by default
-              
-
-
+        drawTrend(terms.slice(5, 10)); //draw the first one by default
 
     });
 
-
-
 </script>
 
-</body>
 
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../shared/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../shared/js/bootstrap.min.js"></script>
+<script src="../shared/js/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format:"yyyy-mm-dd",
+        startDate: '2000-01-01'
+    })
+</script>
+</body>
 </html>

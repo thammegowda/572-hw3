@@ -61,10 +61,10 @@ function getSolrFacet(res, fieldName, transformFunc) {
 }
 
 
-function getDateFacets(query, id, callback){
-    dateStartStr = "2015-08-01T00:00:00Z";
+function getDateFacets(query, dateStartStr, id, callback){
+    dateStartStr = dateStartStr || "2015-06-01T00:00:00Z";
     dateEndStr = "NOW";
-    dateFieldName = 'dates'
+    dateFieldName = 'dates';
     url = SOLR_URL + "/query?q=*:*&rows=0&facet=true&facet.date=" + dateFieldName + "&fq=" + query
         + "&facet.date.start=" + dateStartStr + "&facet.date.end=" + dateEndStr + "&facet.date.gap=%2B1DAY";
     d3.json(url, function(err, data) {
