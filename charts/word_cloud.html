@@ -5,27 +5,51 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <body>
+<form action="">
+<input type="radio" name="w" value="wtype" id="wtype" checked="checked"/>Weapons Types&nbsp;&nbsp;&nbsp;
+<input type="radio" name="w" value="wname" id="wname"/>Weapons Names
+</form>
 </body>
 <script>
+$(document).ready(function(){  
+    render("wtype");
 
+    $("input").change(function (){
+        if($('#wtype').is(':checked'))render("wtype");
+        else render("wname");
+    });
+});
+function render(btnVal)
+{
   var fillColor = d3.scale.category20();
-
+  var urlVal;
    var frequency_list = [];
    var temp_frequency_list = [];
+   if(btnVal=="wtype")urlVal = "http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&rows=0";
+    else urlVal = "http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weaponnames&rows=0";
 
-        $.ajax({ url:'wt.json',dataType: "json", 
+        $.ajax({ url:urlVal,dataType: "jsonp", jsonp: 'json.wrf', 
         success: function(root)
         {
-         var temp = root.facet_counts.facet_fields.weapontypes;
-         
+         if(btnVal=="wtype")            
+          var temp = root.facet_counts.facet_fields.weapontypes;
+         else
+           {var temp = root.facet_counts.facet_fields.weaponnames;}
          var headers = ["text","size"];
          min = Math.pow(Math.log2(temp[temp.length-1]),1.5)*0.8;
 
-         
+         if(btnVal=="wtype")
          for(var i=0;i<temp.length;i+=2)
          {
-         	var obj = {};
-         	obj[headers[0]] = toTitleCase(temp[i]);
+            var obj = {};
+            obj[headers[0]] = toTitleCase(temp[i]);
+            obj[headers[1]] = Math.pow(Math.log2(temp[i+1]),1.5)-min;
+            temp_frequency_list.push(obj);
+         }else
+          for(var i=2;i<temp.length;i+=2)
+         {
+            var obj = {};
+            obj[headers[0]] = toTitleCase(temp[i]);
             obj[headers[1]] = Math.pow(Math.log2(temp[i+1]),1.5)-min;
             temp_frequency_list.push(obj);
          }
@@ -33,11 +57,11 @@
 
          for(var i = 0 ; i<temp_frequency_list.length ; i++ )
          {
-         	if (temp_frequency_list[i].text in deduped) {
-         		deduped[temp_frequency_list[i].text] += temp_frequency_list[i].size
-         	} else {
-         		deduped[temp_frequency_list[i].text] = temp_frequency_list[i].size
-         	}
+            if (temp_frequency_list[i].text in deduped) {
+                deduped[temp_frequency_list[i].text] += temp_frequency_list[i].size
+            } else {
+                deduped[temp_frequency_list[i].text] = temp_frequency_list[i].size
+            }
          }
           $.each(deduped, function(key, value)
          {
@@ -50,7 +74,7 @@
         {
           return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         }
-
+    d3.select("svg").remove();
    var layout =  d3.layout.cloud().size([750, 750])
             .words(frequency_list)
             .rotate(0)
@@ -59,7 +83,7 @@
             .fontSize(function(d) { return d.size; })
             .on("end", draw);
             layout.start();
-    
+
     function draw(words) {
         d3.select("body").append("svg")
                 .attr("width", 750)
@@ -83,6 +107,7 @@
                 })
                 .text(function(d) { return d.text; });
     }}});
+}
 </script>
 </html>
 
