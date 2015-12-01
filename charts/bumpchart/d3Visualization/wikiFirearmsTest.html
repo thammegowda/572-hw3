@@ -1,0 +1,189 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="js/scripts.js"></script>
+
+
+
+  <script>
+
+
+    function myFunction(gunTypes){
+
+      var gunTypeObject = new Object();
+      gunTypeObject.name = "Root";
+      gunTypeObject.children = [];
+
+      for (var i = 0 ; i< gunTypes.length; i++) {
+        var gunType  = new Object();
+        gunType.name = gunTypes[i];
+        gunTypeObject.children.push(gunType);
+      };
+
+      var finalJSON = JSON.stringify(gunTypeObject);
+
+      console.log(finalJSON);
+      
+    }
+
+
+    function extractFireArmType(wikiContent, position){
+      var result = -1;
+      console.log(wikiContent);
+      console.log("$$$$$$$");
+      alert("The position is "+ position);
+
+        while (position >= 0){
+          if (wikiContent[position] == "*" && wikiContent[position-1] == "*" &&
+            wikiContent[position-2] == "\n" && wikiContent[position+1]!= "[" && wikiContent[position+1]!= "*"
+            ){
+
+            console.log(position);
+            console.log("Yah");
+            console.log(wikiContent.substring(position-3, position + 10));
+
+            txt = wikiContent.substring(position-3, position + 10);
+            var re1='.*?';  // Non-greedy match on filler
+            var re2='((?:[a-z][a-z]+))';  // Word 1
+
+            var p = new RegExp(re1+re2,["i"]);
+            var m = p.exec(txt);
+            if (m != null)
+            {
+                var word1=m[1];
+                alert(word1);
+                // document.write("("+word1.replace(/</,"&lt;")+")"+"\n");
+            }
+
+                break;
+
+              
+               }
+          position--;
+        }
+
+  
+
+
+    }
+
+    function getFirearmType(firearm){
+
+      $.ajax({
+      url: "https://en.wikipedia.org/w/api.php?action=query&titles=list%20of%20firearms&prop=revisions&rvprop=content&format=json",
+      dataType: 'jsonp',
+      type: 'GET',
+      success: function (data) {
+
+        var query = data["query"];
+        var pages = query["pages"];
+        var pageID = pages["498411"];
+        var revision = pageID["revisions"][0]
+        var wikiContent = revision["*"];
+        //console.log(wikiContent);
+
+        var position = 0;
+        var number = 0;
+        var positions = [];
+        while(true){
+          position = wikiContent.indexOf(firearm,position)
+          if (position != -1) { number += 1; console.log(position); positions.push(position); position += firearm.length; }
+          else{ break;}
+        }
+
+        console.log(positions);
+        extractFireArmType(wikiContent, positions[positions.length - 1]);
+
+
+
+
+        // if (data.hasOwnProperty("responseHeader")){
+        //   var responseHeader = data["facet_counts"];
+        //   var facet_fields = responseHeader["facet_fields"];
+        //   var weapontypes = facet_fields["weapontypes"];
+        //   alert(weapontypes.length)
+          
+        //   count = 1;
+        //   var gunTypes = [];
+        //   $.each(weapontypes,function(key, value){
+
+
+        //     if(count % 2 == 1){
+        //       console.log("This is the gun type  "+value)
+        //       gunTypes.push(value)
+        //     }
+        //     count += 1;
+            
+        //   });
+        //  myFunction(gunTypes);
+
+
+
+      }
+    });
+    }
+    
+
+
+    getFirearmType("");
+
+    // $.ajax({
+    //   url: "http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&facet.field=weaponnames&rows=0",
+    //   dataType: 'json',
+    //   type: 'GET',
+    //   success: function (data) {
+
+    //     if (data.hasOwnProperty("responseHeader")){
+    //       var responseHeader = data["facet_counts"];
+    //       var facet_fields = responseHeader["facet_fields"];
+    //       var weapontypes = facet_fields["weapontypes"];
+    //       alert(weapontypes.length)
+          
+    //       count = 1;
+    //       var gunTypes = [];
+    //       $.each(weapontypes,function(key, value){
+
+
+    //         if(count % 2 == 1){
+    //           console.log("This is the gun type  "+value)
+    //           gunTypes.push(value)
+    //         }
+    //         count += 1;
+            
+    //       });
+    //      myFunction(gunTypes);
+
+
+
+    // }
+        // alert(data["responseHeader"]);
+
+        // $(data).each(function(key, val){
+          
+
+        //   };
+
+
+            
+      
+	// }});
+
+  </script>
+</body>
+</html>
