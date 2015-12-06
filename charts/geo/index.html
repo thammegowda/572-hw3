@@ -2,11 +2,9 @@
 <head>
     <meta charset="utf-8">
     <title>Weapons Location Visualization</title>
-    <!--
-    TopoJSON Files
-    https://github.com/mbostock/topojson/tree/master/examples
-    //-->
-    <!-- script information //-->
+
+    <link href="../shared/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../shared/css/bootstrap-theme.min.css" rel="stylesheet">
     <script src="../shared/js/d3.v3.min.js"></script>
     <script src="../shared/js/d3.geo.projection.v0.min.js"></script>
     <script src="../shared/js/topojson.v0.min.js"></script>
@@ -15,8 +13,8 @@
 
     <!-- main d3 code //-->
     <script>
-    var width  = 960;
-    var height = 540;
+    var width  = 1200;
+    var height = 600;
 
     var drag = false;
 
@@ -255,7 +253,6 @@
     </script>
 </head>
 <body>
-    <h1>Location of Weapon Ads</h1>
     <form id = "mapInputForm" onsubmit="customSearch(this)">
         Query : <input name="qry" type="text" value="*:*" onchange="customSearch()"/>
         TopN : <input name="topN" type="number" value="10" onchange="customSearch()"/>
@@ -268,6 +265,11 @@
         d3.json("../shared/js/world-110m.json", draw_regions);
         customSearch()
     </script>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../shared/js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../shared/js/bootstrap.min.js"></script>
 
 </body>
 </html>

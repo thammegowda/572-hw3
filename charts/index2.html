@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Team 36's CSCI 572 Weapons Data Mining Visual Analytics</title>
+
+    <!-- Bootstrap -->
+    <link href="shared/css/bootstrap.min.css" rel="stylesheet">
+    <link href="shared/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="./shared/js/d3.v3.min.js"></script>
+    <script src="./shared/js/d3.geo.projection.v0.min.js"></script>
+    <script src="./shared/js/topojson.v0.min.js"></script>
+    <script src="./shared/js/jsonp.js"></script>
+    <script src="./shared/js/solr-transform.js"></script>
+
+
+    <script language="javascript" type="text/javascript">
+
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+        }
+
+
+    </script>
+</head>
+<body> <!-- class="container-fluid" -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><b>Weapon Ads</b></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html" data-toggle="pill">D3 Charts <span class="sr-only">(current)</span></a></li>
+                <li><a href="572-banana.html">Banana</a></li>
+                <li><a href="572-facetview.html">Facet View</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li> <a href="https://github.com/usc-csci-fall15/572-hw1">Crawler</a> </li>
+                        <li> <a href="https://github.com/usc-csci-fall15/572-hw2">Indexer</a> </li>
+                        <li> <a href="https://github.com/usc-csci-fall15/572-hw3">UI source</a> </li>
+                        <li role="separator" class="divider"> </li>
+                        <li> <a href="#">About</a> </li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container">
+    <div class="inputbox">
+        Select The Challenge
+        <select id="challenge">
+            <option value="Qry1">Challenge 1</option>
+            <option value="Qry2">Challenge 2</option>
+            <option value="Qry3">Challenge 3</option>
+            <option value="Qry4">Challenge 4</option>
+        </select>
+        <br/>
+
+        <div class="form-group col-lg-12">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">Query</label>
+                <div class="col-sm-11">
+                    <input class="form-control" name="query" id="query" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr/>
+    <ul class="nav nav-pills hidden">
+
+        <li role="presentation" class="active"><a data-toggle="pill" href="#d3">D3</a></li>
+        <li role="presentation"><a data-toggle="pill" href="#banana">Banana</a></li>
+        <li role="presentation"><a data-toggle="pill" href="#facetview">Facetview</a></li>
+    </ul>
+
+    <!--
+    <div class="tab-content">
+     <div id="banana" class="tab-pane fade ">
+        <h2>Banana</h2>
+        <iframe src="banana/index.html" frameborder="0" class="iframeSize" scrolling="yes"></iframe>
+    </div> -->
+
+    <!--
+<div id="d3" class="tab-pane fade in active">
+    <h2>D3 Charts</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#temporal">Temporal Trend</a></li>
+        <li><a data-toggle="tab" href="#geo">Geo Trend</a></li>
+        <li><a data-toggle="tab" href="#similar">Similar Weapons</a></li>
+        <li><a data-toggle="tab" href="#influx">Weapon Model Influx</a></li>
+        <li><a data-toggle="tab" href="#cloud">Weapons Cloud</a></li>
+        <li><a data-toggle="tab" href="#dendo">Dendogram of Type to Model</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="temporal" class="tab-pane fade in active">
+            <h3>Temporal Trend</h3>
+            <iframe src="calendar/index.html?q=*:*" frameborder="0" class="iframeSize" scrolling="yes"></iframe>
+        </div>
+        <div id="geo" class="tab-pane fade ">
+            <h3>Geo Trend</h3>
+            <iframe src="geo/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+        </div>
+        <div id="similar" class="tab-pane fade ">
+            <h3>Similar Weapons</h3>
+            <iframe src="bubble/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+        </div>
+        <div id="influx" class="tab-pane fade">
+            <h3>Weapon Model Influx</h3>
+            <iframe src="multiline/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+        </div>
+        <div id="cloud" class="tab-pane fade">
+            <h3>Weapons Cloud</h3>
+            <iframe src="wordcloud/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+        </div>
+        <div id="dendo" class="tab-pane fade">
+            <h3>Dendogram of Type to Model</h3>
+            <iframe src="dendogram/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+        </div>
+    </div>
+</div>
+</div>
+-->
+</div>
+
+<div>
+    <ul class="list">
+        <li>
+            <a class="various fancybox.iframe" href="calendar/index.html?_showHeader=true">Temporal Trend</a>
+        </li>
+        <li>
+            <a class="various fancybox.iframe" href="geo/index.html?_showHeader=true">Geographical trend</a>
+        </li>
+        <li>
+            <a class="various fancybox.iframe" href="bubble/index.html?_showHeader=true">Bubble view of weapon types</a>
+        </li>
+        <li>
+            <a class="various fancybox.iframe" href="multiline/index.html?_showHeader=true">Influx Trend</a>
+        </li>
+        <li>
+            <a class="various fancybox.iframe" href="wordcloud/index.html?_showHeader=true">Weapons Cloud</a>
+        </li>
+        <li>
+            <a class="various fancybox.iframe" href="dendogram/index.html?_showHeader=true">Dendogram of weapon types and names</a>
+        </li>
+    </ul>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="shared/js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="shared/js/bootstrap.min.js"></script>
+
+
+    <!-- Add mousewheel plugin (this is optional) -->
+    <script type="text/javascript" src="shared/js/jquery.mousewheel-3.0.6.pack.js"></script>
+    <link rel="stylesheet" href="shared/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="shared/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+    <!-- Optionally add helpers - button, thumbnail and/or media -->
+    <!--
+    <link rel="stylesheet" href="shared/fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+    <script type="text/javascript" src="shared/fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+    <script type="text/javascript" src="shared/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+
+    <link rel="stylesheet" href="shared/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+    <script type="text/javascript" src="shared/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    -->
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $(".various").fancybox({
+                maxWidth	: 1600,
+                maxHeight	: 900,
+                fitToView	: false,
+                width		: '85%',
+                height		: '85%',
+                autoSize	: true,
+                closeClick	: true,
+                openEffect	: 'none',
+                closeEffect	: 'none'
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

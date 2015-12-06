@@ -15,7 +15,6 @@
     <script src="./shared/js/topojson.v0.min.js"></script>
     <script src="./shared/js/jsonp.js"></script>
     <script src="./shared/js/solr-transform.js"></script>
-    <script src="./shared/js/charts.js"></script>
     <style>
         .iframeSize
         {
@@ -123,7 +122,7 @@
             <div class="tab-content">
                 <div id="temporal" class="tab-pane fade in active">
                     <h3>Temporal Trend</h3>
-                    <iframe src="calendar/index.html" frameborder="0" class="iframeSize" scrolling="yes"></iframe>
+                    <iframe src="calendar/index.html?q=*:*" frameborder="0" class="iframeSize" scrolling="yes"></iframe>
                 </div>
                 <div id="geo" class="tab-pane fade ">
                     <h3>Geo Trend</h3>
@@ -155,10 +154,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="shared/js/bootstrap.min.js"></script>
 
-
-    <script type="text/javascript">
-        drawGeoMap("geo-svg-parent")
-    </script>
 
 </body>
 </html>
