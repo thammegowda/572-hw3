@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>Team 36 Weapons Visualiztion</title>
+
+  <!-- Bootstrap -->
+  <link href="shared/css/bootstrap.min.css" rel="stylesheet">
+  <link href="shared/css/bootstrap-theme.min.css" rel="stylesheet">
+  <title>FacetView</title>
+
+  <script type="text/javascript" src="vendor/jquery/1.7.1/jquery-1.7.1.min.js"></script>
+
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>  
+
+  <script type="text/javascript" src="vendor/linkify/1.0/jquery.linkify-1.0-min.js"></script>  
+  
+  <link rel="stylesheet" href="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css">
+  <script type="text/javascript" src="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js"></script>
+
+  <script type="text/javascript" src="jquery.facetview.js"></script>
+
+  <link rel="stylesheet" href="css/facetview.css">
+
+  <script type="text/javascript">
+jQuery(document).ready(function($) {
+  $('.facet-view-simple').each(function() {
+  $(this).facetview({
+    search_url: 'http://localhost:8983/solr/collection2/query?',
+    search_index: 'solr',
+    datatype: 'json',
+    facets: [
+        {'field': 'dates', 'display': 'dates'}
+    ],
+    "result_display" : [
+        [
+          {
+            "pre" : "<h4>",
+            "field" : "id",
+            "post" : "</h4>"
+          }
+        ],
+        [
+          {
+            "pre" : "<b>Title:  </b><text>",
+            "field" : "title",
+            "post" : "</text>"
+          }
+        ],
+        [
+          {
+            "pre" : "<b>Page Rank:  </b><text>",
+            "field" : "location_pr",
+            "post" : "</text><br>"
+          }
+        ]
+    ],
+    "linkify" : true,
+    search_sortby: [{'display':'dates', 'field':'dates'}],
+    searchbox_fieldselect: [{'display':'dates','field':'dates'}],
+    paging: {
+      size: 10
+    },
+    predefined_filters: {
+        //'owner.exact': {'term':{'owner.exact':'test'}}
+    },
+    default_operator: "AND",
+    default_freetext_fuzzify: "*"
+  });
+  });
+});
+  </script>
+
+<style type="text/css">
+.facet-view-simple{
+    width:800px;
+    height:600px;
+    margin:20px auto 0 auto;
+}
+</style>
+
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><b>Weapon Ads</b></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="./index.html" data-toggle="pill">D3 Charts <span class="sr-only">(current)</span></a></li>
+                    <li><a href="./572-banana.html">Banana</a></li>
+                    <li><a href="./facetview/local.html">Facet View</a></li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li> <a href="">Crawler</a> </li>
+                            <li> <a href="">Indexer</a> </li>
+                            <li> <a href="">UI source</a> </li>
+                            <li role="separator" class="divider"> </li>
+                            <li> <a href="#">About</a> </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="facet-view-simple"></div>
+
+</body>
+</html>

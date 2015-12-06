@@ -10,12 +10,6 @@
     <!-- Bootstrap -->
     <link href="shared/css/bootstrap.min.css" rel="stylesheet">
     <link href="shared/css/bootstrap-theme.min.css" rel="stylesheet">
-    <script src="./shared/js/d3.v3.min.js"></script>
-    <script src="./shared/js/d3.geo.projection.v0.min.js"></script>
-    <script src="./shared/js/topojson.v0.min.js"></script>
-    <script src="./shared/js/jsonp.js"></script>
-    <script src="./shared/js/solr-transform.js"></script>
-    <script src="./shared/js/charts.js"></script>
     <style>
         .iframeSize
         {
@@ -50,8 +44,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html" data-toggle="pill">D3 Charts <span class="sr-only">(current)</span></a></li>
-                    <li><a href="572-banana.html">Banana</a></li>
+                    <li><a href="index.html" data-toggle="pill">D3 Charts <span class="sr-only">(current)</span></a></li>
+                    <li class="active"><a href="572-banana.html">Banana</a></li>
                     <li><a href="572-facetview.html">Facet View</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
@@ -104,48 +98,9 @@
             <li role="presentation"><a data-toggle="pill" href="#banana">Banana</a></li>
             <li role="presentation"><a data-toggle="pill" href="#facetview">Facetview</a></li>
         </ul>
-        <div class="tab-content">
-        <!-- <div id="banana" class="tab-pane fade ">
+        <div id="banana">
             <h2>Banana</h2>
             <iframe src="banana/index.html" frameborder="0" class="iframeSize" scrolling="yes"></iframe>
-        </div> -->
-        <div id="d3" class="tab-pane fade in active">
-            <h2>D3 Charts</h2>  
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#temporal">Temporal Trend</a></li>
-                <li><a data-toggle="tab" href="#geo">Geo Trend</a></li>
-                <li><a data-toggle="tab" href="#similar">Similar Weapons</a></li>
-                <li><a data-toggle="tab" href="#influx">Weapon Model Influx</a></li>
-                <li><a data-toggle="tab" href="#cloud">Weapons Cloud</a></li>
-                <li><a data-toggle="tab" href="#dendo">Dendogram of Type to Model</a></li>
-            </ul>
-
-            <div class="tab-content">
-                <div id="temporal" class="tab-pane fade in active">
-                    <h3>Temporal Trend</h3>
-                    <iframe src="calendar.html" frameborder="0" class="iframeSize" scrolling="yes"></iframe>
-                </div>
-                <div id="geo" class="tab-pane fade ">
-                    <h3>Geo Trend</h3>
-                    <iframe src="geo/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
-                </div>
-                <div id="similar" class="tab-pane fade ">
-                    <h3>Similar Weapons</h3>
-                    <iframe src="bubble_chart.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
-                </div>
-                <div id="influx" class="tab-pane fade">
-                    <h3>Weapon Model Influx</h3>
-                    <iframe src="multiline/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
-                </div>
-                <div id="cloud" class="tab-pane fade">
-                    <h3>Weapons Cloud</h3>
-                    <iframe src="word_cloud.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
-                </div>
-                <div id="dendo" class="tab-pane fade">
-                    <h3>Dendogram of Type to Model</h3>
-                </div>
-            </div>
-        </div>
         </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -153,10 +108,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="shared/js/bootstrap.min.js"></script>
 
-
-    <script type="text/javascript">
-        drawGeoMap("geo-svg-parent")
-    </script>
-
 </body>
 </html>
+
+
