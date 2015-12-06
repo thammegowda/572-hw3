@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Example</title>
+
+  <script type="text/javascript" src="vendor/jquery/1.7.1/jquery-1.7.1.min.js"></script>
+
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="vendor/bootstrap/js/bootstrap.min.js"></script>  
+
+  <script type="text/javascript" src="vendor/linkify/1.0/jquery.linkify-1.0-min.js"></script>  
+  
+  <link rel="stylesheet" href="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.css">
+  <script type="text/javascript" src="vendor/jquery-ui-1.8.18.custom/jquery-ui-1.8.18.custom.min.js"></script>
+
+  <script type="text/javascript" src="jquery.facetview.js"></script>
+
+  <link rel="stylesheet" href="css/facetview.css">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Load c3.css -->
+  <link href="vendor/c3-0.4.10/c3.css" rel="stylesheet" type="text/css">
+
+  <!-- Load d3.js and c3.js -->
+  <script src="vendor/d3-3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src="vendor/c3-0.4.10/c3.min.js"></script>
+
+  <script type="text/javascript">
+jQuery(document).ready(function($) {
+  $('.facet-view-simple').facetview({
+    "search_url": 'http://localhost:9200/index_name/_search?',
+    "search_index": 'elasticsearch',
+    "datatype": 'json',
+    "facets": [
+        {'field':'abstract', 'display':'Abstract'},
+        {'field':'authors', 'display':'Authors'},
+        {'field':'pub_date', 'display':'Publication Date'},
+        {'field':'pub_year', 'display':'Publication Year'},
+        {'field':'title', 'display':'Title'},
+        {'field':'source', 'display':'Source'},
+        {'field':'issue', 'display':'Issue'}
+    ],
+    paging: {
+        from: 0,
+        size: 10
+    },
+    "linechart_field"  : "pub_date",
+    "dendrogram_field" : "authors", 
+    "display_images" : false,
+    "result_display" : [
+        [
+          {
+            "pre" : "<h4>",
+            "field" : "id",
+            "post" : "</h4>"
+          }
+        ],
+        [
+          {
+            "pre" : "<b>Title:  </b><text>",
+            "field" : "title",
+            "post" : "</text>"
+          }
+        ],
+        [
+          {
+            "pre" : "<b>Page Rank:  </b><text>",
+            "field" : "location_pr",
+            "post" : "</text><br>"
+          }
+        ]
+    ],
+    "linkify" : true
+    }
+  );
+$('.facetview_filtershow' ).trigger( "click" );
+});
+  </script>
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">FacetView</a>
+      <ul class="nav">
+        <li><a href="http://github.com/darth-pr/facetview">Github</a></li>
+        <li><a href="http://github.com/darth-pr/facetview/issues">Issues</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container"> 
+  <div class="content">
+    <div class="page-header">
+      <h1>
+      Study Search
+      </h1>
+    </div>
+
+    <div class="facet-view-simple"></div>
+
+  </div>
+
+</div>
+</body>
+</html>
