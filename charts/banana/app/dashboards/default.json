@@ -282,7 +282,7 @@
 "default"
 ],
 "type": "heatmap",
-"row_field": "weaponnames",
+"row_field": "dates",
 "col_field": "weapontypes",
 "color": "red",
 "queries": {
