@@ -5,8 +5,8 @@ A web-app for displaying indexed weapons data from Solr
 
 [Team 36 CSCI 572 Weapons Visualization Video](https://youtu.be/uUo1dmmDx_g)
 
+[![Alt text for your video](http://img.youtube.com/vi/uUo1dmmDx_g/0.jpg)](http://www.youtube.com/watch?v=uUo1dmmDx_g)
 
-<iframe  title="Video Demo" width="1024" height="768" src="http://www.youtube.com/watch?v=uUo1dmmDx_g?autoplay=1" frameborder="0" allowfullscreen></iframe>
 
 ##Installation
 1. To run this webapp please place the `charts` folder in the `$SOLR/solr/example/solr-webapp/webapp`.  Where $SOLR is the lucene-solr installation is located.
