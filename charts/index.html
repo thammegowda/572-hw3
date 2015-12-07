@@ -16,6 +16,9 @@
     <script src="./shared/js/jsonp.js"></script>
     <script src="./shared/js/solr-transform.js"></script>
     <style>
+        .iFramePage{
+            
+        }
         .iframeSize
         {
           width: 95%;
@@ -31,6 +34,7 @@
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
   }
 </script>
+<script src="queryPasser.js"></script>
 </head>
 <body> <!-- class="container-fluid" -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -57,7 +61,7 @@
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
+                    <button id="SubmitButton" type="submit" class="btn btn-default">Submit</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -75,34 +79,31 @@
         </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
-        <div class="inputbox">
-            Select The Challenge
-            <select id="challenge">
-                <option value="Qry1">Challenge 1</option>
-                <option value="Qry2">Challenge 2</option>
-                <option value="Qry3">Challenge 3</option>
-                <option value="Qry4">Challenge 4</option>
-            </select>
-            <br/>
+        <form id="searchForm" role="form">
+            <div class="inputbox">
+                Select The Challenge
+                <select id="challenge">
+                    <option value="Qry1">Challenge 1</option>
+                    <option value="Qry2">Challenge 2</option>
+                    <option value="Qry3">Challenge 3</option>
+                    <option value="Qry4">Challenge 4</option>
+                </select>
+                <br/>
 
-            <div class="form-group col-lg-12">
-                <div class="form-group">
-                    <label class="col-sm-1 control-label">Query</label>
-                    <div class="col-sm-11">
-                        <input class="form-control" name="query" id="query" />
+                <div class="form-group col-lg-12">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Query</label>
+                        <div class="col-sm-11">
+                            <input class="form-control" name="query" id="query" />
+                        </div>
                     </div>
                 </div>
             </div>
-
-        </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        
 
         <hr/>
-        <ul class="nav nav-pills hidden">
-        
-            <li role="presentation" class="active"><a data-toggle="pill" href="#d3">D3</a></li>
-            <li role="presentation"><a data-toggle="pill" href="#banana">Banana</a></li>
-            <li role="presentation"><a data-toggle="pill" href="#facetview">Facetview</a></li>
-        </ul>
         <div class="tab-content">
         <!-- <div id="banana" class="tab-pane fade ">
             <h2>Banana</h2>
@@ -122,27 +123,27 @@
             <div class="tab-content">
                 <div id="temporal" class="tab-pane fade in active">
                     <h3>Temporal Trend</h3>
-                    <iframe src="calendar/index.html?q=*:*" frameborder="0" class="iframeSize" scrolling="yes"></iframe>
+                    <iframe src="calendar/index.html" frameborder="0" class="iframeSize iFramePage" scrolling="yes"></iframe>
                 </div>
                 <div id="geo" class="tab-pane fade ">
                     <h3>Geo Trend</h3>
-                    <iframe src="geo/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+                    <iframe src="geo/index.html" frameborder="0" class="iframeSize iFramePage" scrolling="no"></iframe>
                 </div>
                 <div id="similar" class="tab-pane fade ">
                     <h3>Similar Weapons</h3>
-                    <iframe src="bubble/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+                    <iframe src="bubble/index.html" frameborder="0" class="iframeSize iFramePage" scrolling="no"></iframe>
                 </div>
                 <div id="influx" class="tab-pane fade">
                     <h3>Weapon Model Influx</h3>
-                    <iframe src="multiline/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+                    <iframe src="multiline/index.html" frameborder="0" class="iframeSize iFramePage" scrolling="no"></iframe>
                 </div>
                 <div id="cloud" class="tab-pane fade">
                     <h3>Weapons Cloud</h3>
-                    <iframe src="wordcloud/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+                    <iframe src="wordcloud/index.html" frameborder="0" class="iframeSize iFramePage" scrolling="no"></iframe>
                 </div>
                 <div id="dendo" class="tab-pane fade">
                     <h3>Dendogram of Type to Model</h3>
-                    <iframe src="dendogram/index.html" frameborder="0" class="iframeSize" scrolling="no"></iframe>
+                    <iframe src="dendogram/index.html" frameborder="0" class="iframeSize iFramePage" scrolling="no"></iframe>
                 </div>
             </div>
         </div>
@@ -153,6 +154,13 @@
     <script src="shared/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="shared/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        // window.alert('hello');
+        $("#searchForm").submit(function(event){
+            window.getQuery();
+            event.preventDefault();
+        })
+    </script>
 
 
 </body>

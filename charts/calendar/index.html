@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <style>
 
@@ -29,10 +31,14 @@ body {
 .RdYlGn .q8-11{fill:rgb(102,189,99)}
 .RdYlGn .q9-11{fill:rgb(26,152,80)}
 .RdYlGn .q10-11{fill:rgb(0,104,55)}
+
 </style>
-<body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="../queryPasser.js"></script>
+</head>
+<body>
+
 <script>
 
 var width = 960,
@@ -130,6 +136,8 @@ function monthPath(t0) {
       + "H" + (w0 + 1) * cellSize + "Z";
 }
 
-d3.select(self.frameElement).style("height", "2910px");
+d3.select(self.frameElement).style("height", "2500px");
 
 </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 require.config({
   baseUrl: 'app',
   // urlArgs: 'r=@REV@',
-  
+  waitSeconds : 0, 
   paths: {
     config:                   '../config',
     settings:                 'components/settings',
