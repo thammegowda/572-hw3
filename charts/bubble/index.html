@@ -20,7 +20,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
     .attr("class", "bubble");
-$.ajax({ url:'http://localhost:8983/solr/collection2/query?rows=0&fl=id&q=locations:Anacortes%20AND%20dates:[2015-07-01T00:00:00Z%20TO%202015-07-01T23:59:59Z]&facet=true&facet.field=weapontypes&facet.field=locations&facet.mincount=1',dataType: "jsonp", jsonp: 'json.wrf',       
+$.ajax({ url:'http://localhost:8983/solr/collection3/query?rows=0&fl=id&q=locations:Anacortes%20AND%20dates:[2015-07-01T00:00:00Z%20TO%202015-07-01T23:59:59Z]&facet=true&facet.field=weapontypes&facet.field=locations&facet.mincount=1',dataType: "jsonp", jsonp: 'json.wrf',
 success: function(root)
 {
 

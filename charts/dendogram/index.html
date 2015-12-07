@@ -123,9 +123,8 @@
             }
 
             ////////Regex to extract the type
-            
-            
 
+              console.log(gunsLocalArray);
             $.each(gunsLocalArray, function(key, value){
               var gunObject = new Object();
               gunObject.name = value;
@@ -236,7 +235,7 @@
 
               var receivedGunType = extractFireArmType(wikiContent, positions[positions.length - 1]);
               checkAndUpdateIfAvailable(receivedGunType, firearm);
-              console.log("The counter is "+ counter + "The length is "+ gunTypes.length);
+              //console.log("The counter is "+ counter + "The length is "+ gunTypes.length);
               if (counter>= gunTypes.length-2) {
 
                        console.log(gunTypesDictionary);
@@ -271,7 +270,7 @@
     function mapGunsToGunTypes(){
 
       
-      console.log(guns);
+      //console.log(guns);
 
 
       for (var i = 1; i < guns.length; i++) {
@@ -284,17 +283,16 @@
 
 
 
+
     }
     
 
 
         $.ajax({
-          url: "http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&facet.field=weaponnames&rows=0",
+          url: "http://localhost:8983/solr/collection3/query?q=*:*&facet=true&facet.field=weapontypes&facet.field=weaponnames&rows=0",
           dataType: 'json',
           type: 'GET',
           success: function (data) {
-
-            if (data.hasOwnProperty("responseHeader")){
               var responseHeader = data["facet_counts"];
               var facet_fields = responseHeader["facet_fields"];
               var weapontypes = facet_fields["weapontypes"];
@@ -345,7 +343,7 @@
                 
               });
 
-              console.log(gunTypes);
+              //console.log(gunTypes);
              gunTypes.push("Other");
              console.log("This is the gun types");
              gunTypesDictionary["Other"] = [];
