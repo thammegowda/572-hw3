@@ -3,7 +3,7 @@
  */
 
 
-var SOLR_URL = "/solr/collection3";
+var SOLR_URL = "/solr/collection2";
 /**
  * Split the geo identifier into latitude and longitude
  * @param data - the geo point string in the form of "lat, long"
