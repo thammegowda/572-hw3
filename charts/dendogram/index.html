@@ -40,6 +40,7 @@
       var guns = [];
 
 
+
         function generateGraph(receivedJSON){
           var width = 960,
               height = 2200;
@@ -90,7 +91,6 @@
 
           for(var key in gunTypesDictionary){
 
-
             var value  = gunTypesDictionary[key];
           }
          // $.each(d3.keys(gunTypesDictionary), function(k,val) {console.log("k="+val + ", v="+gunTypesDictionary[val]);})
@@ -101,6 +101,10 @@
           var gunTypeObject = new Object();
           gunTypeObject.name = "Root";
           gunTypeObject.children = [];
+          console.log("Before the root");
+          console.log("tHE GUN TYPES DICTIONAR IS")
+          console.log(gunTypesDictionary)
+          console.log(gunTypes);
 
 
           for (var i = 0 ; i< gunTypes.length; i++) {
@@ -118,7 +122,11 @@
             if (m != null)
             {
                 word1=m[1];
-                gunsLocalArray = gunTypesDictionary[word1];
+                if (word1 in gunTypesDictionary) {
+                  gunsLocalArray = gunTypesDictionary[word1];
+                };
+                
+                console.log(word1 + gunsLocalArray)
                 
             }
 
@@ -137,7 +145,8 @@
 
           var finalJSON = JSON.stringify(gunTypeObject);
 
-          //console.log(finalJSON);
+          console.log("The final JSON is ");
+          console.log(finalJSON);
           generateGraph(finalJSON);
 
         }
@@ -194,8 +203,9 @@
 
       function checkAndUpdateIfAvailable(gunType, firearm){
 
-      if (gunTypesDictionary.hasOwnProperty(gunType)) {
 
+        gunType = gunType.substr(0,1).toUpperCase() + gunType.substr(1);
+      if (gunTypesDictionary.hasOwnProperty(gunType)) {
         gunTypesDictionary[gunType].push(firearm);
 
       }else{
@@ -207,15 +217,12 @@
 
     function getFirearmType(firearm, counter){
 
-
-
             $.ajax({
 
             url: "wikidump.json",
             dataType: 'json',
             type: 'GET',
             success: function (data) {
-              console
 
               var query = data["query"];
               var pages = query["pages"];
@@ -226,6 +233,8 @@
               var position = 0;
               var number = 0;
               var positions = [];
+
+              console.log(firearm)
               while(true){
                 position = wikiContent.indexOf(firearm.toLowerCase(),position);
                 //position = wikiContent.search(firearm.toLowerCase(),position);
@@ -233,12 +242,15 @@
                 else{ break;}
               }
 
+              console.log(positions)
+
               var receivedGunType = extractFireArmType(wikiContent, positions[positions.length - 1]);
+              console.log(receivedGunType)
               checkAndUpdateIfAvailable(receivedGunType, firearm);
-              //console.log("The counter is "+ counter + "The length is "+ gunTypes.length);
+              console.log("The counter is "+ counter + "The length is "+ gunTypes.length);
               if (counter>= gunTypes.length-2) {
 
-                       console.log(gunTypesDictionary);
+                      console.log(gunTypesDictionary);
                       console.log("Before calling the function");
                       myFunction();
 
@@ -270,7 +282,7 @@
     function mapGunsToGunTypes(){
 
       
-      //console.log(guns);
+      console.log(guns);
 
 
       for (var i = 1; i < guns.length; i++) {
@@ -323,6 +335,7 @@
               //////////////guntypes//////////
               count = 1;
               var gunTypeString = "";
+              console.log(weapontypes)
               $.each(weapontypes,function(key, value){
 
                 
@@ -343,10 +356,11 @@
                 
               });
 
-              //console.log(gunTypes);
+
              gunTypes.push("Other");
              console.log("This is the gun types");
              gunTypesDictionary["Other"] = [];
+             console.log(gunTypes);
 
              mapGunsToGunTypes();
              
