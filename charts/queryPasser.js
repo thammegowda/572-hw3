@@ -1,8 +1,8 @@
-function getQuery(url){
+function getQuery(_class, url){
 	var search = window.location.search;
-	$(".iFramePage").attr("src", $(".iFramePage").attr("src")+search);
-	window._globalQuery = search;
-	window.alert(url);
+	$(_class).attr("src", $(_class).attr("src")+url);
+	window._globalQuery = url;
+	window.alert(window._globalQuery);
 }
 
 

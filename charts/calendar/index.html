@@ -84,8 +84,9 @@ svg.selectAll(".month")
   .enter().append("path")
     .attr("class", "month")
     .attr("d", monthPath);
+window.alert('http://localhost:8983/solr/collection2/query?q='+window._globalQuery+'&facet=true&facet.date=dates&facet.date.start=1990-01-01T00:00:00Z&facet.date.end=NOW&rows=0&facet.date.gap=%2B1DAY&facet.mincount=1&facet.field.dates.sort=count');
 
-$.ajax({ url:'http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.date=dates&facet.date.start=1990-01-01T00:00:00Z&facet.date.end=NOW&rows=0&facet.date.gap=%2B1DAY&facet.mincount=1&facet.field.dates.sort=count',dataType: "jsonp", jsonp: 'json.wrf',       
+$.ajax({ url:'http://localhost:8983/solr/collection2/query?q='+window._globalQuery+'&facet=true&facet.date=dates&facet.date.start=1990-01-01T00:00:00Z&facet.date.end=NOW&rows=0&facet.date.gap=%2B1DAY&facet.mincount=1&facet.field.dates.sort=count',dataType: "jsonp", jsonp: 'json.wrf',       
 success: function(data1)
 {
  var jsonData = [];

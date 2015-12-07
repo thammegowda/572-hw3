@@ -80,10 +80,12 @@
             <div class="inputbox">
                 Select The Challenge
                 <select id="challenge">
-                    <option value="Qry1">Challenge 1</option>
-                    <option value="Qry2">Challenge 2</option>
-                    <option value="Qry3">Challenge 3</option>
-                    <option value="Qry4">Challenge 4</option>
+                    <option value="*:*">Time Based Query</option>
+                    <option value="locations:*">Location Based Query</option>
+                    <option value="locations:Texas+OR+locations:TX">Location and Time Based Query</option>
+                    <option value="locations:Anacortes%20AND%20dates:[2015-07- 01T00:00:00Z%20TO%202015-07-01T23:59:59Z]">Top Traded Weapons</option>
+                    <option value="weapontypes:shotgun&mlt=true&mlt.fl=weaponnames,locations&mlt.mindf=1&mlt.mintf=1&fl=id,score">Similar Shotguns</option>
+
                 </select>
                 <br/>
 
@@ -166,9 +168,12 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="shared/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+        $("#challenge").on('change', function(){
+            $("#query").val(this.value);
+        });
         $("#searchForm").submit(function(event){
             var encoded = encodeURIComponent($("#query").val());
-            window.getQuery(encoded);
+            window.getQuery(".iframeSize.iFramePage", encoded);
             // event.preventDefault();
         });
     </script>
