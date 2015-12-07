@@ -15,7 +15,14 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../shared/js/bootstrap.min.js"></script>
     <script src="../shared/js/bootstrap-datepicker.js"></script>
-
+    <style>
+        .iframeSize
+        {
+          width: 95%;
+          height: 100%;
+          position: absolute;
+        }
+    </style>
     <script type="text/javascript">
         $('.datepicker').datepicker({
             format:"yyyy-mm-dd",
@@ -94,16 +101,10 @@
             });
     }
 
-    function search(qry, topN, dtRange){
-       console.log(">Search Q=" + qry + "topN:"+ topN + ", date:" + dtRange);
+    function search(qry){
         if (!qry) {
-            qry = "*:*"
+            qry = "*:*&rows=0"
         }
-        if (!topN){
-            topN=1023
-        }
-
-        topN++;
 
        //console.log(">Search Q=" + qry + "topN:"+ topN);
         d3.json("/solr/collection2/query?q="+ qry,
@@ -112,15 +113,20 @@
                 // facets = getSolrFacet(json, 'location_latlons', geoPointTransform);
                 // places = getSolrFacet(json, 'cities');
                 listings = json["response"]["docs"];
+                $("#numResults").empty()
+                $("#topResultsText").empty()
+                
                 list = $('#websites');
                 list.empty();
                 if (listings.length  == 0 ) {
+                    $("#numResults").html("0 results found.");
                     console.log("No results found")
                     return
                 }
-
+                $("#numResults").html(json["response"]["numFound"] + " results found.");
+                $("#topResultsText").html("Showing Top Ten Results.");
                 for(var i=0; i<listings.length && i < 40; i++) {
-                    list.append("<li><a href="+listings[i].id+ "target='source-target'>" + listings[i].id +"</a> </li>");
+                    list.append("<li><a href="+listings[i].id+ " target='source-target'>" + listings[i].id +"</a> </li>");
                     
                 }
 
@@ -128,36 +134,65 @@
     }
 
         function customSearch(){
-            //remove older one
-            //d3.select("svg").selectAll("*").remove();
-            // d3.selectAll("circle").remove()
+            
             theForm = document.getElementById("listingInputForm");
-            stdt = theForm.startdate.value;
-            eddt = theForm.enddate.value;
-            dtrange = "[" + stdt + "T00:00:00Z TO " + eddt + "T23:59:59Z ]";
-            search(theForm.qry.value, theForm.topN.value, dtrange)
+        
+            qry="";
+            qryParams =[];
+            
+            if (theForm.age.checked){
+                // qry = qry+encodeURIComponent(theForm.age.value);
+                qryParams.push(encodeURIComponent(theForm.age.value));
+            }
+            if (theForm.identity.checked){
+                // qry = qry+"&"+encodeURIComponent(theForm.identity.value);
+                qryParams.push(theForm.identity.value);
+            }
+            for (var i = 0; i < qryParams.length; i++) {
+                if (i == 0) {
+                    qry = qryParams[i];
+                }else{
+                    qry = qry + "&" + qryParams[i];   
+                }   
+            }
+            if (qry == ""){
+                qry = "*:*&rows=0";
+            }
+            theForm.qry.value = qry;
+
+            search(qry)
         }
     </script>
     
 </head>
 <body>
-    <form id = "listingInputForm" onsubmit="customSearch(this)">
+    <form id="listingInputForm" role="form" onsubmit="customSearch(this)">
         Query : <input name="qry" type="text" value="*:*" onchange="customSearch()"/>
-        TopN : <input name="topN" type="number" value="1000" onchange="customSearch()"/>
+        <!-- TopN : <input name="topN" type="number" value="1000" onchange="customSearch()"/> -->
         <input type="checkbox" name="age" value="killin+bieber" onclick="customSearch()">Underage
-        <input type="checkbox" name="identity" value="weapontypes:Gun" onclick="customSearch()">De-identified
+        <input type="checkbox" name="identity" value="weapontypes=Gun" onclick="customSearch()">De-identified
 
-        Start Date : <input name="startdate" id="startdate" class="datepicker" data-date-format="mm/dd/yyyy"  value="2005-01-01" onchange="customSearch()">
-        End Date : <input name="enddate" id="enddate" class="datepicker" data-date-format="mm/dd/yyyy"  value="2015-12-07" onchange="customSearch()">
+        <!-- Start Date : <input name="startdate" id="startdate" class="datepicker" data-date-format="mm/dd/yyyy"  value="2005-01-01" onchange="customSearch()"> -->
+        <!-- End Date : <input name="enddate" id="enddate" class="datepicker" data-date-format="mm/dd/yyyy"  value="2015-12-07" onchange="customSearch()"> -->
 
     </form>
-    <div id="container row">
-        <ul id="websites" class="col-md-3">
-        </ul>
-        <div class=" col-md-6">
-            <iframe name="source-target" href="#" frameborder="0" class="iframeSize">    
+    <div class="container-fluid">
+        <div class="row">
+            <br/>
+            <label id="numResults"></label>
+            <br/>
+            <label id="topResultsText"></label>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                <ul id="websites">
+                </ul>
+            </div>
+            
         </div>
-        
+        <div class="row">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe name="source-target" href="#" frameborder="0" class="embed-responsive-item">    
+            </div>
+        </div>
     </div>
     <script>
         customSearch()
