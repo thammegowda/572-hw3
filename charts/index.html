@@ -16,9 +16,6 @@
     <script src="./shared/js/jsonp.js"></script>
     <script src="./shared/js/solr-transform.js"></script>
     <style>
-        .iFramePage{
-            
-        }
         .iframeSize
         {
           width: 95%;
@@ -61,7 +58,7 @@
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
-                    <button id="SubmitButton" type="submit" class="btn btn-default">Submit</button>
+                    <button type="submit" class="btn btn-default">Submit</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -169,11 +166,10 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="shared/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        // window.alert('hello');
         $("#searchForm").submit(function(event){
             window.getQuery();
-            event.preventDefault();
-        })
+            // event.preventDefault();
+        });
     </script>
 
 </body>
