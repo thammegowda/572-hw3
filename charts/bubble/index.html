@@ -16,8 +16,6 @@
   <script>
 
   function customSearch(){
-
-
     var form_location = "*:*";
     var form_start_date = "";
     var form_last_date = "";
@@ -32,13 +30,13 @@
     //alert(dtrange);
 
     //alert(form_location);
-    var diameter = 960,
+    var diameter = 1000,
         format = d3.format(",d"),
         color = d3.scale.category20c();
     var bubble = d3.layout.pack()
         .sort(null)
         .size([diameter, diameter])
-        .padding(1.5);
+        .padding(10);
     var svg = d3.select("#d3chart").append("svg")
         .attr("width", diameter)
         .attr("height", diameter)
@@ -114,18 +112,35 @@
 
 
     </form>
-    <p id = "queryString" style="width:1200px"> </p>
+    <br/>
+    <br/>
+    
+    <p id = "queryString" style="width:1100px"> </p>
 
     <div id = "d3chart">
 
-    </di>
+    </div>
+
+
+    
+
+
 
 
   </body>
 
   <script src="../shared/js/jquery.min.js"></script>
   <script src="../shared/js/d3.v3.min.js"></script>
-)
+  <script src="../shared/js/bootstrap.min.js"></script>
+  <script src="../shared/js/bootstrap-datepicker.js"></script>
+
+    <script type="text/javascript">
+        $('.datepicker').datepicker({
+            format:"yyyy-mm-dd",
+            startDate: '2000-01-01',
+            endDate: '2015-12-31'
+        });
+    </script>
 
   <script>
     $(window).load(customSearch());
