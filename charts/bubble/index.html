@@ -1,64 +1,138 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-text {
-  font: 10px sans-serif;
-}
-</style>
-<body>
-<script src="../shared/js/jquery.min.js"></script>
-<script src="../shared/js/d3.v3.min.js"></script>
-<script>
-var diameter = 960,
-    format = d3.format(",d"),
-    color = d3.scale.category20c();
-var bubble = d3.layout.pack()
-    .sort(null)
-    .size([diameter, diameter])
-    .padding(1.5);
-var svg = d3.select("body").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble");
-$.ajax({ url:'/solr/collection2/query?rows=0&fl=id&q=locations:Anacortes%20AND%20dates:[2015-10-13T00:00:00Z%20TO%202015-10-13T23:59:59Z]&facet=true&facet.field=weapontypes&facet.field=locations&facet.mincount=1',dataType: "jsonp", jsonp: 'json.wrf',
-success: function(root){
+  <meta charset="utf-8">
+  <style>
+  text {
+    font: 10px sans-serif;
+  }
 
-  var node = svg.selectAll(".node")
-      .data(bubble.nodes(classes(root))
-      .filter(function(d) { return !d.children; }))
-    .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-  node.append("title")
-      .text(function(d) { return d.className + ": " + format(d.value); });
-  node.append("circle")
-      .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.packageName); });
-  node.append("text")
-      .attr("dy", ".3em")
-      .style("text-anchor", "middle")
-      .text(function(d) { return d.className.substring(0, d.r / 3); });
-}});
-// Returns a flattened hierarchy containing all leaf nodes under the root.
-function classes(root) {
-  
-  var classes = [];
-   var temp = root.facet_counts.facet_fields.weapontypes;
-   var headers = ["type","value"];
-   var result = [];
-   for(var i=0;i<temp.length;i+=2)
-   {
-    var obj = {};
-    obj[headers[0]] = temp[i];
-    obj[headers[1]] = temp[i+1];
-    result.push(obj);
-   }
-   json = JSON.parse(JSON.stringify(result));
-   for(var i=0;i<json.length;i++)
-   {
-   classes.push({packageName: json[i].type, className: json[i].type, value: json[i].value});
- };
-  return {children: classes};
-}
-d3.select(self.frameElement).style("height", diameter + "px");
-</script>
+  .box{
+
+    margin-right:50px;
+  }
+
+
+  </style>
+
+  <script>
+
+  function customSearch(){
+
+
+    var form_location = "*:*";
+    var form_start_date = "";
+    var form_last_date = "";
+    var dtrange = '[2015-10-13T00:00:00Z%20TO%202015-10-13T23:59:59Z]';
+
+    $('#d3chart').empty();
+
+    form_location = $("#mapInputForm input[name = 'Loc']").val()? $("#mapInputForm input[name = 'Loc']").val(): "*";
+    form_start_date = $("#mapInputForm input[name = 'startdate']").val();
+    form_last_date = $("#mapInputForm input[name = 'enddate']").val();
+    dtrange = "[" + form_start_date + "T00:00:00Z TO " + form_last_date + "T23:59:59Z]";
+    //alert(dtrange);
+
+    //alert(form_location);
+    var diameter = 960,
+        format = d3.format(",d"),
+        color = d3.scale.category20c();
+    var bubble = d3.layout.pack()
+        .sort(null)
+        .size([diameter, diameter])
+        .padding(1.5);
+    var svg = d3.select("#d3chart").append("svg")
+        .attr("width", diameter)
+        .attr("height", diameter)
+        .attr("class", "bubble");
+
+    var myString = '/q=locations:<strong>'+ form_location +'</strong>%20AND%20dates:<strong>'+dtrange+'</strong>&facet=true&facet.field=weapontypes&facet.field=locations&facet.mincount=1';
+    $("#queryString").html(myString);
+
+    $.ajax({ url:'/solr/collection2/query?rows=0&fl=id&q=locations:'+ form_location +'%20AND%20dates:'+dtrange+'&facet=true&facet.field=weapontypes&facet.field=locations&facet.mincount=1',dataType: "jsonp", jsonp: 'json.wrf',
+    success: function(root){
+
+
+
+      var node = svg.selectAll(".node")
+          .data(bubble.nodes(classes(root))
+          .filter(function(d) { return !d.children; }))
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+      node.append("title")
+          .text(function(d) { return d.className + ": " + format(d.value); });
+      node.append("circle")
+          .attr("r", function(d) { return d.r; })
+          .style("fill", function(d) { return color(d.packageName); });
+      node.append("text")
+          .attr("dy", ".3em")
+          .style("text-anchor", "middle")
+          .text(function(d) { return d.className.substring(0, d.r / 3); });
+    }});
+
+  d3.select(self.frameElement).style("height", diameter + "px");
+
+
+
+
+  }
+
+  function classes(root) {
+      
+      var classes = [];
+       var temp = root.facet_counts.facet_fields.weapontypes;
+       var headers = ["type","value"];
+       var result = [];
+       for(var i=0;i<temp.length;i+=2)
+       {
+        var obj = {};
+        obj[headers[0]] = temp[i];
+        obj[headers[1]] = temp[i+1];
+        result.push(obj);
+       }
+       json = JSON.parse(JSON.stringify(result));
+       for(var i=0;i<json.length;i++)
+       {
+       classes.push({packageName: json[i].type, className: json[i].type, value: json[i].value});
+     };
+      return {children: classes};
+    }
+
+  </script>
+
+
+  <body>
+
+     <form id = "mapInputForm" onsubmit="customSearch(this)">
+      
+<!--         Query : <input name="qry" type="text" value="*:*" onchange="customSearch()" class= "box"/> -->
+        Location : <input name="Loc" type="test" value="" onkeyup="customSearch()"   class= "box"/>
+
+        Start Date : <input name="startdate" id="startdate" class="datepicker box" data-date-format="mm/dd/yyyy"  value="2005-01-01" onkeyup="customSearch()" />
+
+
+        End Date : <input name="enddate" id="enddate" class="datepicker box" data-date-format="mm/dd/yyyy"  value="2015-12-07" onkeyup="customSearch() " />
+
+
+    </form>
+    <p id = "queryString" style="width:1200px"> </p>
+
+    <div id = "d3chart">
+
+    </di>
+
+
+  </body>
+
+  <script src="../shared/js/jquery.min.js"></script>
+  <script src="../shared/js/d3.v3.min.js"></script>
+)
+
+  <script>
+    $(window).load(customSearch());
+    
+    // Returns a flattened hierarchy containing all leaf nodes under the root.
+    
+    
+  </script>
+
+</html>
