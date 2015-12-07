@@ -21,7 +21,7 @@ AjaxSolr.AbstractManager = AjaxSolr.Class.extend(
    * @param {Object} [attributes]
    * @param {String} [attributes.solrUrl] The fully-qualified URL of the Solr
    *   application. You must include the trailing slash. Do not include the path
-   *   to any Solr servlet. Defaults to "http://localhost:8983/solr/"
+   *   to any Solr servlet. Defaults to " /solr/"
    * @param {String} [attributes.proxyUrl] If we want to proxy queries through a
    *   script, rather than send queries to Solr directly, set this field to the
    *   fully-qualified URL of the script.
@@ -31,7 +31,7 @@ AjaxSolr.AbstractManager = AjaxSolr.Class.extend(
    */
   constructor: function (attributes) {
     AjaxSolr.extend(this, {
-      solrUrl: 'http://localhost:8983/solr/',
+      solrUrl: ' /solr/',
       proxyUrl: null,
       servlet: 'select',
       // The most recent response from Solr.

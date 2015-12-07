@@ -29,12 +29,10 @@
 ],
 "list": {
 "0": {
-"from": "NOW/DAY-7DAY",
-"to": "NOW/DAY%2B1DAY",
+"from": "2015-06-12T04:57:41.000Z",
+"to": "2015-11-08T04:55:42.000Z",
 "field": "dates",
 "type": "time",
-"fromDateObj": "2015-11-30T03:23:46.484Z",
-"toDateObj": "2015-12-07T03:23:46.484Z",
 "mandate": "must",
 "active": true,
 "alias": "",
@@ -61,7 +59,7 @@
 "type": "timepicker",
 "loadingEditor": false,
 "status": "Stable",
-"mode": "relative",
+"mode": "absolute",
 "spyable": true,
 "time_options": [
 "1h",
@@ -72,7 +70,7 @@
 "1y",
 "5y"
 ],
-"timespan": "7d",
+"timespan": "60d",
 "timefield": "dates",
 "timeformat": "",
 "refresh": {
@@ -81,7 +79,11 @@
 "min": 3
 },
 "filter_id": 0,
-"title": "Time Window"
+"title": "Time Window",
+"time": {
+"from": "06/11/2015 21:57:41",
+"to": "11/07/2015 20:55:42"
+}
 },
 {
 "error": false,
@@ -142,7 +144,7 @@
 "ids": [
 0
 ],
-"query": "q=*&wt=json&rows=0&fq=dates:[NOW/DAY-7DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=weaponnames&facet.limit=100"
+"query": "q=*&wt=json&rows=0&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&facet=true&facet.field=weaponnames&facet.limit=100"
 },
 "fontScale": 10,
 "field": "weaponnames",
@@ -178,7 +180,7 @@
 "ids": [
 0
 ],
-"query": "q=*&wt=json&rows=0&fq=dates:[NOW/DAY-7DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=weaponnames&facet.limit=100&facet.missing=true"
+"query": "q=*&wt=json&rows=0&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&facet=true&facet.field=weaponnames&facet.limit=100&facet.missing=true"
 },
 "field": "weaponnames",
 "exclude": [],
@@ -288,7 +290,7 @@
 "ids": [
 0
 ],
-"query": "q=*&fq=dates:[NOW/DAY-7DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=100&facet=true&facet.pivot=weaponnames,weapontypes&facet.limit=10&facet.pivot.mincount=0"
+"query": "q=*&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&wt=json&rows=100&facet=true&facet.pivot=weaponnames,weapontypes&facet.limit=10&facet.pivot.mincount=0"
 },
 "fontScale": 10,
 "field": "weaponnames",
@@ -323,7 +325,7 @@
 "ids": [
 0
 ],
-"query": "q=*&wt=json&rows=0&fq=dates:[NOW/DAY-7DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.range=dates&facet.range.start=NOW/DAY-7DAY&facet.range.end=NOW/DAY%2B1DAY&facet.range.gap=%2B1HOUR\n",
+"query": "q=*&wt=json&rows=0&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&facet=true&facet.range=dates&facet.range.start=2015-06-12T04:57:41.000Z&facet.range.end=2015-11-08T04:55:42.000Z&facet.range.gap=%2B1DAY\n",
 "custom": ""
 },
 "max_rows": 100000,
@@ -331,7 +333,7 @@
 "group_field": null,
 "auto_int": true,
 "resolution": 100,
-"interval": "1h",
+"interval": "1d",
 "intervals": [
 "auto",
 "1s",
@@ -390,15 +392,17 @@
 "ids": [
 0
 ],
-"query": "q=*&fq=dates:[NOW/DAY-7DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=weaponnames&facet.field=weapontypes&facet.field=dates&wt=json&rows=500&hl=true&hl.fl=content",
-"basic_query": "q=*&fq=dates:[NOW/DAY-7DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=weaponnames&facet.field=weapontypes&facet.field=dates",
+"query": "q=*&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&facet=true&facet.field=weaponnames&facet.field=weapontypes&facet.field=dates&facet.field=cities&facet.field=states&facet.field=countries&wt=json&rows=50&hl=true&hl.fl=content",
+"basic_query": "q=*&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&facet=true&facet.field=weaponnames&facet.field=weapontypes&facet.field=dates&facet.field=cities&facet.field=states&facet.field=countries",
 "custom": ""
 },
 "size": 10,
 "pages": 5,
 "offset": 0,
 "group": "default",
-"sort": [],
+"sort": [
+"location_pr"
+],
 "style": {
 "font-size": "12pt"
 },
@@ -406,10 +410,13 @@
 "fields": [
 "weaponnames",
 "weapontypes",
-"dates"
+"dates",
+"cities",
+"states",
+"countries"
 ],
 "highlight": [],
-"sortable": false,
+"sortable": true,
 "header": true,
 "paging": true,
 "field_list": true,
@@ -417,7 +424,7 @@
 "normTimes": true,
 "spyable": true,
 "saveOption": "json",
-"exportSize": 500,
+"exportSize": 50,
 "exportAll": true,
 "facet_limit": 10,
 "foundResults": true,
@@ -455,7 +462,7 @@
 "dropdown_collections": false
 },
 "solr": {
-"server": "http://localhost:8983/solr/",
+"server": "/solr/",
 "core_name": "collection2",
 "core_list": [
 "collection1",

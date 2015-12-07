@@ -30,7 +30,7 @@ function (angular, _, config, moment) {
     };
 
     // Solr: returns a promise containing an array of all collections in the Solr server.
-    // param: solr_server (e.g. http://localhost:8983/solr/)
+    // param: solr_server (e.g.  /solr/)
     this.collections = function(solr_server) {
       return all_collections(solr_server).then(function (p) {
         return p;
@@ -38,7 +38,7 @@ function (angular, _, config, moment) {
     };
 
     // returns a promise containing an array of all collections in Solr
-    // param: solr_server (e.g. http://localhost:8983/solr/)
+    // param: solr_server (e.g.  /solr/)
     function all_collections(solr_server) {
       // Check USE_ADMIN_CORES flag in config.js
       var coreApi = '';

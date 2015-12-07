@@ -89,7 +89,7 @@ function getDateFacets(query, dateStartStr, id, callback){
 }
 
 function getFacets(fieldName, callback){
-    //http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&rows=0&facet.limit=50
+    // /solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&rows=0&facet.limit=50
     url = SOLR_URL + "/query?q=*:*&rows=0&facet=on&facet.limit=100&facet.field=" + fieldName;
     d3.json(url, function(error, data) {
         if (error) return console.warn(error);
