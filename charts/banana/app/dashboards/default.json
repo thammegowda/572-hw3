@@ -373,68 +373,6 @@
 "show_queries": true
 }
 ]
-},
-{
-"title": "Search",
-"height": "200px",
-"editable": true,
-"collapse": false,
-"collapsable": true,
-"panels": [
-{
-"span": 12,
-"editable": true,
-"type": "fullTextSearch",
-"loadingEditor": false,
-"status": "Stable",
-"queries": {
-"mode": "all",
-"ids": [
-0
-],
-"query": "q=*&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&facet=true&facet.field=weaponnames&facet.field=weapontypes&facet.field=dates&facet.field=cities&facet.field=states&facet.field=countries&wt=json&rows=50&hl=true&hl.fl=content",
-"basic_query": "q=*&fq=dates:[2015-06-12T04:57:41.000Z%20TO%202015-11-08T04:55:42.000Z]&facet=true&facet.field=weaponnames&facet.field=weapontypes&facet.field=dates&facet.field=cities&facet.field=states&facet.field=countries",
-"custom": ""
-},
-"size": 10,
-"pages": 5,
-"offset": 0,
-"group": "default",
-"sort": [
-"location_pr"
-],
-"style": {
-"font-size": "12pt"
-},
-"overflow": "min-height",
-"fields": [
-"weaponnames",
-"weapontypes",
-"dates",
-"cities",
-"states",
-"countries"
-],
-"highlight": [],
-"sortable": true,
-"header": true,
-"paging": true,
-"field_list": true,
-"trimFactor": 300,
-"normTimes": true,
-"spyable": true,
-"saveOption": "json",
-"exportSize": 50,
-"exportAll": true,
-"facet_limit": 10,
-"foundResults": true,
-"show_queries": true,
-"header_field": "title",
-"body_field": "content",
-"url_field": "id",
-"title": "Text Search"
-}
-]
 }
 ],
 "editable": true,
