@@ -24,11 +24,9 @@ $(document).ready(function(){
 function render(btnVal)
 {
   var fillColor = d3.scale.category20();
-  var urlVal;
    var frequency_list = [];
-   var temp_frequency_list = [];
-   if(btnVal=="wtype")urlVal = "http://localhost:8983/solr/collection3/query?q=*:*&facet=true&facet.field=weapontypes&rows=0";
-    else urlVal = "http://localhost:8983/solr/collection3/query?q=*:*&facet=true&facet.field=weaponnames&rows=0";
+    var temp_frequency_list = [];
+    var urlVal = "/solr/collection2/query?q=*:*&facet=true&rows=0&facet.field=" + (btnVal=="wtype" ? "weapontypes" : "weaponnames")
 
         $.ajax({ url:urlVal,dataType: "jsonp", jsonp: 'json.wrf', 
         success: function(root)

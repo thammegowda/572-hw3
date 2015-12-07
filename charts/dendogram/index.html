@@ -292,16 +292,10 @@
          getFirearmType(guns[i], i);
         
        }
-
-
-
-
     }
-    
-
 
         $.ajax({
-          url: "http://localhost:8983/solr/collection3/query?q=*:*&facet=true&facet.field=weapontypes&facet.field=weaponnames&rows=0",
+          url: "/solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&facet.field=weaponnames&rows=0",
           dataType: 'json',
           type: 'GET',
           success: function (data) {
