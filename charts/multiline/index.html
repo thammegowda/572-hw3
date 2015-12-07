@@ -98,7 +98,7 @@
         // if (error) throw error;
         domains = data.map(function (v) {return v.name});
         color.domain(domains);
-        console.log(data)
+        //console.log(data)
 
         x.domain(d3.extent(data[0].values, function(d) { return d.date; }));
 
@@ -143,7 +143,7 @@
     function onInputChange(){
         menu = d3.select("#weaponnameMenu")[0][0];
         if(!menu) {
-            return console.error("menu = " + menu)
+            return console.error("No menu");
         }
         opts = menu.selectedOptions;
         weaponanmes = [];

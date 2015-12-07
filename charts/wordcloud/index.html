@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="https://gist.github.com/emeeks/3361332/raw/61cf57523fe8cf314333e5f60cc266351fec2017/d3.layout.cloud.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../shared/js/d3.v3.min.js"></script>
+<!--
+<script src="https://gist.github.com/emeeks/3361332/raw/61cf57523fe8cf314333e5f60cc266351fec2017/d3.layout.cloud.js"></script>-->
+<script src="../shared/js/d3.layout.cloud.js"></script>
+<script src="../shared/js/jquery.min.js"></script>
 
 <body>
 <form action="">
@@ -25,8 +27,8 @@ function render(btnVal)
   var urlVal;
    var frequency_list = [];
    var temp_frequency_list = [];
-   if(btnVal=="wtype")urlVal = "http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weapontypes&rows=0";
-    else urlVal = "http://localhost:8983/solr/collection2/query?q=*:*&facet=true&facet.field=weaponnames&rows=0";
+   if(btnVal=="wtype")urlVal = "http://localhost:8983/solr/collection3/query?q=*:*&facet=true&facet.field=weapontypes&rows=0";
+    else urlVal = "http://localhost:8983/solr/collection3/query?q=*:*&facet=true&facet.field=weaponnames&rows=0";
 
         $.ajax({ url:urlVal,dataType: "jsonp", jsonp: 'json.wrf', 
         success: function(root)
