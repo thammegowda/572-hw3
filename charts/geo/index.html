@@ -12,7 +12,20 @@
     <script src="../shared/js/solr-transform.js"></script>
 
     <!-- main d3 code //-->
+
+    <style>
+
+        .box{
+
+        margin-right:50px;
+        }
+
+
+        </style>
+
+
     <script>
+
     var width  = 800;
     var height = 600;
 
@@ -231,13 +244,21 @@
         if (!qry) {
             qry = "*:*"
         }
-        if (!topN){
-            topN=1023
-        }
+        if (topN<0){
+            topN=1
+        }else{
 
         topN++;
 
-       // console.log(">Search Q=" + qry + "topN:"+ topN);
+
+        }
+
+
+
+
+        var myString = "/q=<strong>"+ qry + "</strong>&fq=dates:<strong>"+ dtRange + "</strong>&facet=true&facet.mincount=1&facet.field=location_latlons&facet.field=cities&facet.limit=<strong>"+ topN + "</strong>&rows=0";
+        $("#queryString").html(myString);
+
         d3.json("/solr/collection2/query?q="+ qry + "&fq=dates:"+ dtRange + "&facet=true&facet.mincount=1&facet.field=location_latlons&facet.field=cities&facet.limit="+ topN + "&rows=0",
             function(error, json) {
                 if (error) { return console.warn(error) }
@@ -269,20 +290,27 @@
             theForm = document.getElementById("mapInputForm");
             stdt = theForm.startdate.value;
             eddt = theForm.enddate.value;
-            dtrange = "[" + stdt + "T00:00:00Z TO " + eddt + "T23:59:59Z ]";
-            search(theForm.qry.value, theForm.topN.value, dtrange)
+            dtrange = "[" + stdt + "T00:00:00Z TO " + eddt + "T23:59:59Z]";
+            search(theForm.qry.value, theForm.topN.value-1, dtrange)
+
         }
     </script>
 </head>
 <body>
     <form id = "mapInputForm" onsubmit="customSearch(this)">
-        Query : <input name="qry" type="text" value="*:*" onchange="customSearch()"/>
-        TopN : <input name="topN" type="number" value="1000" onchange="customSearch()"/>
+        Query : <input name="qry" type="text" value="*:*" onkeyup="customSearch()" class="box"/>
+        Top Results : <input name="topN" type="number" value="1000" onkeyup="customSearch()" class="box"/>
 
-        Start Date : <input name="startdate" id="startdate" class="datepicker" data-date-format="mm/dd/yyyy"  value="2005-01-01" onchange="customSearch()">
-        End Date : <input name="enddate" id="enddate" class="datepicker" data-date-format="mm/dd/yyyy"  value="2015-12-07" onchange="customSearch()">
+        Start Date : <input name="startdate" id="startdate" class="datepicker box" data-date-format="mm/dd/yyyy"  value="2005-01-01" onchange="customSearch()" >
+        End Date : <input name="enddate" id="enddate" class="datepicker box" data-date-format="mm/dd/yyyy"  value="2015-12-07" onchange="customSearch()" >
 
     </form>
+    <br/><br/>
+    <p id = "queryString" style="width:1100px"> </p>
+    <br/><br/>
+
+
+
     <div id="container row">
         <ul id="locationnames" class="col-md-3">
         </ul>
