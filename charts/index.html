@@ -167,7 +167,8 @@
     <script src="shared/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $("#searchForm").submit(function(event){
-            window.getQuery();
+            var encoded = encodeURIComponent($("#query").val());
+            window.getQuery(encoded);
             // event.preventDefault();
         });
     </script>
