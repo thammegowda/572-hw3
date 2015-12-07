@@ -6,10 +6,14 @@ A web-app for displaying indexed weapons data from Solr
 [Team 36 CSCI 572 Weapons Visualization Video](https://youtu.be/uUo1dmmDx_g)
 
 ##Installation
-To run this webapp please place the `charts` folder in the `$SOLR/solr/example/solr-webapp/webapp`.
-Where $SOLR is the lucene-solr installation is located.
+1. To run this webapp please place the `charts` folder in the `$SOLR/solr/example/solr-webapp/webapp`.  Where $SOLR is the lucene-solr installation is located.
 
-To run this app with data please place the data within a solr core directory.  The folder should be named `collection2`.  
+2. To run this open the browser and navigate to http://<SOLR_URL>:<SOLR_PORT>/solr/charts/index.html
+
+	- e.g. http://localhost:8983/solr/charts/index.html
+
+We have included our SOLR index in a folder named `collection2`.
+To run this app with data please place the collection2 data within `$SOLR/solr/` directory.  The folder should be named `collection2`.  
 
 ##Dependencies
 
