@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+
+  <style>
+  .node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+  .node {
+    font: 10px sans-serif;
+  }
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+  }
+  </style>
+
+    <head> 
+      <meta charset="utf-8">
+
+      <title>The HTML5 Herald</title>
+      <meta name="description" content="D3 Visualization">
+      <meta name="author" content="Rahul Thankachan">
+
+
+    </head>
+  <body>
+
+      <script src="../shared/js/jquery.min.js"></script>
+      <script src="../shared/js/d3.v3.min.js"></script>
+
+      <script>
+
+      gunTypesDictionary = {}
+      wikiContent = "";
+      var gunTypes = [];
+      var guns = [];
+
+
+
+        function generateGraph(receivedJSON){
+          var width = 960,
+              height = 2200;
+          var cluster = d3.layout.cluster()
+              .size([height, width - 200]);
+          var diagonal = d3.svg.diagonal()
+              .projection(function(d) { return [d.y, d.x]; });
+          var svg = d3.select("body").append("svg")
+              .attr("width", width)
+              .attr("height", height)
+            .append("g")
+              .attr("transform", "translate(40,0)");
+
+          console.log("The received json is");
+          //console.log(receivedJSON);
+
+
+          root = JSON.parse(receivedJSON);
+            var nodes = cluster.nodes(root),
+                links = cluster.links(nodes);
+            var link = svg.selectAll(".link")
+                .data(links)
+              .enter().append("path")
+                .attr("class", "link")
+                .attr("d", diagonal);
+            var node = svg.selectAll(".node")
+                .data(nodes)
+              .enter().append("g")
+                .attr("class", "node")
+                .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+            node.append("circle")
+                .attr("r", 4.5);
+            node.append("text")
+                .attr("dx", function(d) { return d.children ? -8 : 8; })
+                .attr("dy", 3)
+                .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
+                .text(function(d) { return d.name; });
+          
+          d3.select(self.frameElement).style("height", height + "px");
+
+        }
+        
+
+
+
+        function myFunction(){
+
+
+          for(var key in gunTypesDictionary){
+
+            var value  = gunTypesDictionary[key];
+          }
+         // $.each(d3.keys(gunTypesDictionary), function(k,val) {console.log("k="+val + ", v="+gunTypesDictionary[val]);})
+          
+         
+
+
+          var gunTypeObject = new Object();
+          gunTypeObject.name = "Root";
+          gunTypeObject.children = [];
+          console.log("Before the root");
+          console.log("tHE GUN TYPES DICTIONAR IS")
+          console.log(gunTypesDictionary)
+          console.log(gunTypes);
+
+
+          for (var i = 0 ; i< gunTypes.length; i++) {
+            var gunType  = new Object();
+            gunType.name = gunTypes[i];
+            gunType.children = [];
+
+            ////////Regex to extract the type/// Shotgun ( 78986 )
+            var gunsLocalArray = [];
+
+            var re1='((?:[a-z][a-z]+))';  // Word 1
+            var txt = gunTypes[i];
+            var p = new RegExp(re1,["i"]);
+            var m = p.exec(txt);
+            if (m != null)
+            {
+                word1=m[1];
+                if (word1 in gunTypesDictionary) {
+                  gunsLocalArray = gunTypesDictionary[word1];
+                };
+                
+                console.log(word1 + gunsLocalArray)
+                
+            }
+
+            ////////Regex to extract the type
+
+              console.log(gunsLocalArray);
+            $.each(gunsLocalArray, function(key, value){
+              var gunObject = new Object();
+              gunObject.name = value;
+              gunType.children.push(gunObject);
+
+            });
+
+            gunTypeObject.children.push(gunType);
+          };
+
+          var finalJSON = JSON.stringify(gunTypeObject);
+
+          console.log("The final JSON is ");
+          console.log(finalJSON);
+          generateGraph(finalJSON);
+
+        }
+
+
+
+         function extractFireArmType(wikiContent, position){
+            var result = -1;
+            var flag = 0;
+
+            while (position >= 10)
+
+            {
+              if (wikiContent[position] == "*" && wikiContent[position-1] == "*" &&
+                        wikiContent[position-2] == "\n" && wikiContent[position+1]!= "[" && wikiContent[position+1]!= "*"
+                 )
+              {
+
+                // console.log(wikiContent.substring(position-3, position + 15));
+
+                txt = wikiContent.substring(position-3, position + 15);
+                var re1='.*?';  // Non-greedy match on filler
+                var re2='((?:[a-z][a-z]+))';  // Word 1
+
+                var p = new RegExp(re1+re2,["i"]);
+                var m = p.exec(txt);
+                if (m != null)
+                {
+                    var word1=m[1];
+                    flag = 1;
+                    return word1.substring(0,word1.length-1);
+
+
+                    
+                    // document.write("("+word1.replace(/</,"&lt;")+")"+"\n");
+                }
+
+                    break;
+
+                  
+                   }
+              position--;
+              }
+              if (flag==0) {
+
+                return "Other";
+              }; 
+
+  
+
+
+          }
+
+
+      function checkAndUpdateIfAvailable(gunType, firearm){
+
+
+        gunType = gunType.substr(0,1).toUpperCase() + gunType.substr(1);
+      if (gunTypesDictionary.hasOwnProperty(gunType)) {
+        gunTypesDictionary[gunType].push(firearm);
+
+      }else{
+         gunTypesDictionary["Other"].push(firearm);
+      }
+
+      
+    }
+
+    function getFirearmType(firearm, counter){
+
+            $.ajax({
+
+            url: "wikidump.json",
+            dataType: 'json',
+            type: 'GET',
+            success: function (data) {
+
+              var query = data["query"];
+              var pages = query["pages"];
+              var pageID = pages["498411"];
+              var revision = pageID["revisions"][0]
+              wikiContent = revision["*"].toLowerCase();
+
+              var position = 0;
+              var number = 0;
+              var positions = [];
+
+              console.log(firearm)
+              while(true){
+                position = wikiContent.indexOf(firearm.toLowerCase(),position);
+                //position = wikiContent.search(firearm.toLowerCase(),position);
+                if (position != -1) { number += 1; positions.push(position); position += firearm.length; }
+                else{ break;}
+              }
+
+              console.log(positions)
+
+              var receivedGunType = extractFireArmType(wikiContent, positions[positions.length - 1]);
+              console.log(receivedGunType)
+              checkAndUpdateIfAvailable(receivedGunType, firearm);
+              console.log("The counter is "+ counter + "The length is "+ gunTypes.length);
+              if (counter>= gunTypes.length-2) {
+
+                      console.log(gunTypesDictionary);
+                      console.log("Before calling the function");
+                      myFunction();
+
+
+              };
+
+
+            }
+            });
+
+
+
+
+        // getFireArmTypeExtended(wikiContent,firearm);
+    
+
+    }
+
+    // function getFireArmTypeExtended(wikiContent, firearm){
+
+    //   alert("yahooooooooo");
+
+
+    // }
+
+
+
+
+    function mapGunsToGunTypes(){
+
+      
+      console.log(guns);
+
+
+      for (var i = 1; i < guns.length; i++) {
+
+         //console.log("The gun is "+ guns[i]);
+        // getFirearmType("Ballester-Molina");
+         getFirearmType(guns[i], i);
+        
+       }
+
+
+
+
+    }
+    
+
+
+        $.ajax({
+          url: "http://localhost:8983/solr/collection3/query?q=*:*&facet=true&facet.field=weapontypes&facet.field=weaponnames&rows=0",
+          dataType: 'json',
+          type: 'GET',
+          success: function (data) {
+              var responseHeader = data["facet_counts"];
+              var facet_fields = responseHeader["facet_fields"];
+              var weapontypes = facet_fields["weapontypes"];
+
+              var weaponnames = facet_fields["weaponnames"];
+
+              /////guns///////////
+
+              count = 1;
+
+              var gunString = "";
+              $.each(weaponnames,function(key, value){
+
+                
+                if(count % 2 == 0){
+                  gunString += " " + "( " + value + " )";
+                  gunString = "";
+                }else{
+                  gunString += value;
+                  guns.push(gunString)
+                }
+                count += 1;
+                
+              });
+              
+
+
+              //////////////guntypes//////////
+              count = 1;
+              var gunTypeString = "";
+              console.log(weapontypes)
+              $.each(weapontypes,function(key, value){
+
+                
+                if(count % 2 == 0){
+                  gunTypeString += " " + "( " + value + " )";
+
+                  gunTypes.push(gunTypeString)
+                  gunTypeString = "";
+
+                }else{
+
+                  gunTypesDictionary[value] = [];
+                  gunTypeString += value;
+                  
+                  
+                }
+                count += 1;
+                
+              });
+
+
+             gunTypes.push("Other");
+             console.log("This is the gun types");
+             gunTypesDictionary["Other"] = [];
+             console.log(gunTypes);
+
+             mapGunsToGunTypes();
+             
+
+        }
+      //}
+    });
+
+      </script>
+  </body>
+
+</html>
