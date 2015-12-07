@@ -6,8 +6,8 @@ text {
 }
 </style>
 <body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="../shared/js/jquery.min.js"></script>
+<script src="../shared/js/d3.v3.min.js"></script>
 <script>
 var diameter = 960,
     format = d3.format(",d"),
@@ -20,11 +20,9 @@ var svg = d3.select("body").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
     .attr("class", "bubble");
-$.ajax({ url:'http://localhost:8983/solr/collection3/query?rows=0&fl=id&q=locations:Anacortes%20AND%20dates:[2015-07-01T00:00:00Z%20TO%202015-07-01T23:59:59Z]&facet=true&facet.field=weapontypes&facet.field=locations&facet.mincount=1',dataType: "jsonp", jsonp: 'json.wrf',
-success: function(root)
-{
+$.ajax({ url:'/solr/collection2/query?rows=0&fl=id&q=locations:Anacortes%20AND%20dates:[2015-10-13T00:00:00Z%20TO%202015-10-13T23:59:59Z]&facet=true&facet.field=weapontypes&facet.field=locations&facet.mincount=1',dataType: "jsonp", jsonp: 'json.wrf',
+success: function(root){
 
-  
   var node = svg.selectAll(".node")
       .data(bubble.nodes(classes(root))
       .filter(function(d) { return !d.children; }))
