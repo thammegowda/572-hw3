@@ -106,7 +106,7 @@
             qry = "*:*&rows=0"
         }
 
-       //console.log(">Search Q=" + qry + "topN:"+ topN);
+        //console.log(">Search Q=" + qry + "topN:"+ topN);
         d3.json("/solr/collection2/query?q="+ qry,
             function(error, json) {
                 if (error) { return console.warn(error) }
@@ -118,20 +118,24 @@
                 
                 list = $('#websites');
                 list.empty();
+                $("#iframeDiv").empty();
                 if (listings.length  == 0 ) {
                     $("#numResults").html("0 results found.");
+                    $("#myIframe").hide();
                     console.log("No results found")
                     return
                 }
+                $("#myIframe").show();
                 $("#numResults").html(json["response"]["numFound"] + " results found.");
                 $("#topResultsText").html("Showing Top Ten Results.");
-                for(var i=0; i<listings.length && i < 40; i++) {
+                for(var i=0; i<listings.length; i++) {
                     list.append("<li><a href="+listings[i].id+ " target='source-target'>" + listings[i].id +"</a> </li>");
                     
                 }
 
-            })
-    }
+                $("#iframeDiv").append('<div id="myIframe" class="embed-responsive embed-responsive-16by9"><iframe name="source-target" href="#" frameborder="0" class="embed-responsive-item"></div>');
+            });
+        }
 
         function customSearch(){
             
@@ -160,7 +164,7 @@
             }
             theForm.qry.value = qry;
 
-            search(qry)
+            search(qry);
         }
     </script>
     
@@ -188,10 +192,8 @@
             </div>
             
         </div>
-        <div class="row">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe name="source-target" href="#" frameborder="0" class="embed-responsive-item">    
-            </div>
+        <div id="iframeDiv" class="row">
+            
         </div>
     </div>
     <script>
