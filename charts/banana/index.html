@@ -31,7 +31,7 @@
       <button type="button" class="close" ng-click="dashAlerts.clear(alert)" style="padding-right:50px">&times;</button>
       <strong>{{alert.title}}</strong> <span ng-bind-html-unsafe='alert.text'></span> <div style="padding-right:10px" class='pull-right small'> {{$index + 1}} alert(s) </div>
     </div>
-    <!-- <div class="navbar navbar-static-top">
+    <div class="navbar navbar-static-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <span class="brand">
@@ -41,7 +41,7 @@
           </ul>
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="container-fluid main">
       <div class="row-fluid">
         <div ng-view></div>
