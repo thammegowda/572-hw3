@@ -228,18 +228,34 @@
 
     function search(qry, topN){
         console.log(">Search Q=" + qry + "topN:"+ topN);
-        if(!qry) {
+        if (!qry) {
             qry = "*:*"
         }
         if (!topN){
-            topN=1024
+            topN=1023
         }
+
+        topN++;
+
         console.log(">Search Q=" + qry + "topN:"+ topN);
-        d3.json("/solr/collection2/query?q="+ qry + "&facet=true&facet.field=location_latlons&facet.limit="+ topN + "&rows=0",
+        d3.json("/solr/collection2/query?q="+ qry + "&facet=true&facet.field=location_latlons&facet.field=cities&facet.limit="+ topN + "&rows=0",
             function(error, json) {
                 if (error) { return console.warn(error) }
                 facets = getSolrFacet(json, 'location_latlons', geoPointTransform);
+                places = getSolrFacet(json, 'cities');
+
+                if (places.length > 0 && facets.length > 0 && places[0].term == 'Etc Hotel') {
+                    places.splice(0, 1);
+                    facets.splice(0, 1);
+                    console.log(facets)
+                }
                 show_geo_points(facets);
+                list = $('#locationnames');
+                list.empty();
+                for(var i=0; i<places.length && i < 40; i++) {
+                    list.append("<li>" + places[i].term + "(" + places[i].count + ")</li>")
+                }
+
             })
     }
 
@@ -255,10 +271,17 @@
 <body>
     <form id = "mapInputForm" onsubmit="customSearch(this)">
         Query : <input name="qry" type="text" value="*:*" onchange="customSearch()"/>
-        TopN : <input name="topN" type="number" value="10" onchange="customSearch()"/>
+        TopN : <input name="topN" type="number" value="1000" onchange="customSearch()"/>
     </form>
-    <div id="map"></div>
-    <p class="footer">Geo locations of weapon ads</p>
+    <div id="container row">
+        <ul id="locationnames" class="col-md-2">
+        </ul>
+        <div class=" col-md-9">
+            <div id="map">
+            </div>
+            <p class="footer">Geo locations of weapon ads</p>
+        </div>
+    </div>
 
     <script>
         draw_map();
